@@ -6,7 +6,7 @@
 A tiny macOS menu bar app that repurposes the Option key:
 
 - **Single press `⌥`** → Mission Control
-- **Double press `⌥`** → Spotlight
+- **Double press `⌥`** → Spotlight Apps
 - **Hot corner** → Slam mouse to top-left corner of any screen → Mission Control (with GNOME-style ripple animation)
 - **`⌥`+`1-9`** → Launch the Nth app in your Dock (1 = Finder)
 - **Caps Lock OSD** → On-screen notification when Caps Lock is toggled

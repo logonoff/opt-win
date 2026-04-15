@@ -128,7 +128,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         optSingleMenuItem.state = optSingleEnabled ? .on : .off
         menu.addItem(optSingleMenuItem)
 
-        optDoubleMenuItem = NSMenuItem(title: "Opt Opt → Spotlight", action: #selector(toggleOptDouble), keyEquivalent: "")
+        optDoubleMenuItem = NSMenuItem(title: "Opt Opt → Apps", action: #selector(toggleOptDouble), keyEquivalent: "")
         optDoubleMenuItem.state = optDoubleEnabled ? .on : .off
         menu.addItem(optDoubleMenuItem)
 
@@ -327,16 +327,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func triggerSpotlight() {
-        let src = CGEventSource(stateID: .hidSystemState)
-
-        guard let down = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: true),
-              let up = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: false)
-        else { return }
-
-        down.flags = .maskCommand
-        up.flags = .maskCommand
-
-        down.post(tap: .cgSessionEventTap)
-        up.post(tap: .cgSessionEventTap)
+        NSWorkspace.shared.open(URL(string: "spotlight://apps")!)
     }
 }

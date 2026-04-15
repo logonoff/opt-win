@@ -7,7 +7,7 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 ## Features
 
 - **Single press `⌥`** → Opens Mission Control
-- **Double press `⌥`** → Opens Spotlight (simulates Cmd+Space)
+- **Double press `⌥`** → Opens Spotlight Applications section (via `spotlight://apps` URL)
 - **Hot corner** → Slamming mouse to top-left corner of any screen opens Mission Control with a GNOME-style ripple animation
 - **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed.
 - **Caps Lock OSD** → Shows a centered on-screen notification ("⇪ Caps Lock On/Off") when Caps Lock is toggled, inspired by gnome-shell-extension-lockkeys
@@ -46,7 +46,7 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 - **Dock shortcuts**: Reads `~/Library/Preferences/com.apple.dock.plist` → `persistent-apps` array. Finder is always position 1. Virtual key codes 0x12–0x19 map to number keys 1–9.
 - **Option key "clean press"**: A press is dirty (ignored) if any other key, mouse button, or modifier is used while Option is held. This prevents triggering on Opt+Tab, Cmd+Opt, Opt+Click, etc.
 - **Double press timing**: 300ms threshold between two clean Option releases.
-- **Spotlight trigger**: Posts synthetic Cmd+Space CGEvents (virtual key 0x31).
+- **Spotlight trigger**: Opens `spotlight://apps` URL which opens the Spotlight Applications section on macOS 26.
 - **Mission Control trigger**: Runs `/usr/bin/open -a "Mission Control"`.
 - **Hot corner detection**: Uses velocity-based triggering inspired by GNOME's `PressureBarrier`. GNOME accumulates cursor pressure (100px threshold in a 1000ms window) against pointer barriers. Since macOS pointer barriers are private API, we approximate by measuring cursor speed — only triggers when the cursor enters the 2px corner zone at ≥500 pts/sec, filtering out slow drifts. Resets when cursor leaves the zone.
 - **Hot corner coordinate math**: CGEvent uses flipped coordinates (0,0 = top-left of primary display). NSScreen uses bottom-left origin. Conversion: `cgY = primaryScreenHeight - nsY - screenHeight`.
