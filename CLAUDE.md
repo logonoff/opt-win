@@ -38,7 +38,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
-No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`.
+No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped.
 
 ## Key Implementation Details
 
@@ -57,7 +57,7 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 
 ## CI
 
-GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-latest`, creates a draft GitHub release with `OptWin.zip` attached.
+GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a draft GitHub release with `OptWin.zip` attached.
 
 A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
 

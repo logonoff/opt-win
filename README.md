@@ -3,7 +3,7 @@
 > [!WARNING]
 > This is AI slop and I have not vetted the code. Use at your own risk!
 
-A tiny macOS menu bar app that repurposes the Option key:
+A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (Tahoe)** or later.
 
 - **Single press `⌥`** → Mission Control
 - **Double press `⌥`** → Spotlight Apps

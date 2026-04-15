@@ -24,6 +24,28 @@ cp Info.plist "$APP_BUNDLE/Contents/"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APP_BUNDLE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "$APP_BUNDLE/Contents/Info.plist"
 
+# Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)
+mkdir -p "$APP_BUNDLE/Contents/Resources"
+if [ -d "icon.icon" ] && actool --version &>/dev/null; then
+    echo "Compiling Liquid Glass icon..."
+    actool icon.icon \
+        --compile "$APP_BUNDLE/Contents/Resources" \
+        --output-format human-readable-text \
+        --notices --warnings --errors \
+        --output-partial-info-plist /dev/null \
+        --app-icon icon \
+        --include-all-app-icons \
+        --enable-on-demand-resources NO \
+        --development-region en \
+        --target-device mac \
+        --minimum-deployment-target 26.0 \
+        --platform macosx
+    /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Set :CFBundleIconName icon" "$APP_BUNDLE/Contents/Info.plist"
+else
+    echo "Skipping icon (actool not available or icon.icon not found)"
+fi
+
 codesign --force --sign - "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"
