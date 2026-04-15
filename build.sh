@@ -9,7 +9,7 @@ echo "Building $APP_NAME..."
 
 mkdir -p "$BUILD_DIR"
 
-swiftc Sources/main.swift \
+swiftc Sources/*.swift \
     -o "$BUILD_DIR/$APP_NAME" \
     -framework Cocoa \
     -O
@@ -17,6 +17,8 @@ swiftc Sources/main.swift \
 mkdir -p "$APP_BUNDLE/Contents/MacOS"
 cp "$BUILD_DIR/$APP_NAME" "$APP_BUNDLE/Contents/MacOS/"
 cp Info.plist "$APP_BUNDLE/Contents/"
+
+codesign --force --sign - "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"
 echo ""

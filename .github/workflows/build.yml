@@ -1,11 +1,15 @@
-name: Build
+name: Release
 
 on:
   push:
-  pull_request:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  release:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,8 +17,10 @@ jobs:
       - name: Build
         run: ./build.sh
 
-      - name: Upload app bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: OptWin
-          path: build/OptWin.app
+      - name: Package zip
+        run: cd build && ditto -c -k --keepParent OptWin.app OptWin.zip
+
+      - name: Create draft release
+        run: gh release create "${{ github.ref_name }}" build/OptWin.zip --draft --title "${{ github.ref_name }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

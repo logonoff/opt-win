@@ -1,0 +1,275 @@
+import Cocoa
+
+func eventTapCallback(
+    proxy: CGEventTapProxy,
+    type: CGEventType,
+    event: CGEvent,
+    userInfo: UnsafeMutableRawPointer?
+) -> Unmanaged<CGEvent>? {
+    guard let userInfo = userInfo else { return Unmanaged.passUnretained(event) }
+    let delegate = Unmanaged<AppDelegate>.fromOpaque(userInfo).takeUnretainedValue()
+
+    if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+        if let tap = delegate.eventTap {
+            CGEvent.tapEnable(tap: tap, enable: true)
+        }
+        return Unmanaged.passUnretained(event)
+    }
+
+    delegate.handleEvent(type: type, event: event)
+    return Unmanaged.passUnretained(event)
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    var eventTap: CFMachPort?
+    private var statusItem: NSStatusItem!
+    private var hotCornerMenuItem: NSMenuItem!
+    private var optSingleMenuItem: NSMenuItem!
+    private var optDoubleMenuItem: NSMenuItem!
+
+    private let optionKeyHandler = OptionKeyHandler()
+    private let hotCorner = HotCorner()
+    private let rippleAnimation = RippleAnimation()
+
+    private var hotCornersEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "hotCornersEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hotCornersEnabled")
+            hotCornerMenuItem.state = newValue ? .on : .off
+            hotCorner.enabled = newValue
+        }
+    }
+
+    private var optSingleEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "optSingleEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "optSingleEnabled")
+            optSingleMenuItem.state = newValue ? .on : .off
+        }
+    }
+
+    private var optDoubleEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "optDoubleEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "optDoubleEnabled")
+            optDoubleMenuItem.state = newValue ? .on : .off
+        }
+    }
+
+    // MARK: - App Lifecycle
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        UserDefaults.standard.register(defaults: [
+            "hotCornersEnabled": true,
+            "optSingleEnabled": true,
+            "optDoubleEnabled": true,
+        ])
+
+        optionKeyHandler.onSinglePress = { [weak self] in
+            guard let self = self, self.optSingleEnabled else { return }
+            self.triggerMissionControl()
+        }
+        optionKeyHandler.onDoublePress = { [weak self] in
+            guard let self = self, self.optDoubleEnabled else { return }
+            self.triggerSpotlight()
+        }
+
+        hotCorner.onTrigger = { [weak self] screen in
+            self?.rippleAnimation.play(onScreen: screen)
+            self?.triggerMissionControl()
+        }
+        hotCorner.enabled = hotCornersEnabled
+
+        setupStatusItem()
+
+        if !setupEventTap() {
+            showAccessibilityAlert()
+        }
+    }
+
+    // MARK: - Status Bar
+
+    private func setupStatusItem() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        if let button = statusItem.button {
+            button.title = "⌥"
+        }
+
+        let menu = NSMenu()
+
+        optSingleMenuItem = NSMenuItem(title: "Opt → Mission Control", action: #selector(toggleOptSingle), keyEquivalent: "")
+        optSingleMenuItem.state = optSingleEnabled ? .on : .off
+        menu.addItem(optSingleMenuItem)
+
+        optDoubleMenuItem = NSMenuItem(title: "Opt Opt → Spotlight", action: #selector(toggleOptDouble), keyEquivalent: "")
+        optDoubleMenuItem.state = optDoubleEnabled ? .on : .off
+        menu.addItem(optDoubleMenuItem)
+
+        hotCornerMenuItem = NSMenuItem(title: "Hot Corner", action: #selector(toggleHotCorners), keyEquivalent: "")
+        hotCornerMenuItem.state = hotCornersEnabled ? .on : .off
+        menu.addItem(hotCornerMenuItem)
+
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Quit OptWin", action: #selector(quit), keyEquivalent: "q"))
+        statusItem.menu = menu
+    }
+
+    @objc private func toggleOptSingle() {
+        optSingleEnabled = !optSingleEnabled
+    }
+
+    @objc private func toggleOptDouble() {
+        optDoubleEnabled = !optDoubleEnabled
+    }
+
+    @objc private func toggleHotCorners() {
+        hotCornersEnabled = !hotCornersEnabled
+    }
+
+    @objc private func requestPermissions() {
+        let trusted = AXIsProcessTrusted()
+        let hasEventTap = eventTap != nil
+
+        if trusted && hasEventTap {
+            let alert = NSAlert()
+            alert.messageText = "Permissions Granted"
+            alert.informativeText = "OptWin already has all required permissions."
+            alert.alertStyle = .informational
+            alert.runModal()
+            return
+        }
+
+        var missing: [String] = []
+        if !trusted { missing.append("Accessibility") }
+        if !hasEventTap { missing.append("Input Monitoring") }
+
+        let alert = NSAlert()
+        alert.messageText = "Permissions Required"
+        alert.informativeText = """
+            OptWin needs the following permissions:
+
+            \(missing.joined(separator: ", "))
+
+            After granting, restart OptWin for changes to take effect.
+            """
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open Accessibility")
+        alert.addButton(withTitle: "Open Input Monitoring")
+        alert.addButton(withTitle: "Cancel")
+
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary
+            AXIsProcessTrustedWithOptions(options)
+        } else if response == .alertSecondButtonReturn {
+            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent") {
+                NSWorkspace.shared.open(url)
+            }
+        }
+    }
+
+    @objc private func quit() {
+        NSApplication.shared.terminate(nil)
+    }
+
+    // MARK: - Event Tap
+
+    private func setupEventTap() -> Bool {
+        let mask: CGEventMask =
+            (1 << CGEventType.flagsChanged.rawValue)
+            | (1 << CGEventType.keyDown.rawValue)
+            | (1 << CGEventType.leftMouseDown.rawValue)
+            | (1 << CGEventType.rightMouseDown.rawValue)
+            | (1 << CGEventType.otherMouseDown.rawValue)
+            | (1 << CGEventType.mouseMoved.rawValue)
+
+        let selfPtr = Unmanaged.passUnretained(self).toOpaque()
+
+        guard let tap = CGEvent.tapCreate(
+            tap: .cgSessionEventTap,
+            place: .headInsertEventTap,
+            options: .listenOnly,
+            eventsOfInterest: mask,
+            callback: eventTapCallback,
+            userInfo: selfPtr
+        ) else {
+            return false
+        }
+
+        self.eventTap = tap
+        let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
+        CGEvent.tapEnable(tap: tap, enable: true)
+        return true
+    }
+
+    private func showAccessibilityAlert() {
+        let alert = NSAlert()
+        alert.messageText = "Permissions Required"
+        alert.informativeText = """
+            OptWin needs two permissions to detect key presses:
+
+            1. Accessibility
+            2. Input Monitoring
+
+            Grant both in System Settings → Privacy & Security, then restart OptWin.
+            """
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open Accessibility")
+        alert.addButton(withTitle: "Open Input Monitoring")
+        alert.addButton(withTitle: "Quit")
+
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary
+            AXIsProcessTrustedWithOptions(options)
+        } else if response == .alertSecondButtonReturn {
+            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent") {
+                NSWorkspace.shared.open(url)
+            }
+        }
+        NSApplication.shared.terminate(nil)
+    }
+
+    // MARK: - Event Routing
+
+    func handleEvent(type: CGEventType, event: CGEvent) {
+        switch type {
+        case .flagsChanged:
+            optionKeyHandler.handleFlagsChanged(event: event)
+        case .keyDown:
+            optionKeyHandler.markOtherInput()
+        case .leftMouseDown, .rightMouseDown, .otherMouseDown:
+            optionKeyHandler.markOtherInput()
+        case .mouseMoved:
+            hotCorner.handleMouseMoved(event: event)
+        default:
+            break
+        }
+    }
+
+    // MARK: - Actions
+
+    private func triggerMissionControl() {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+        task.arguments = ["-a", "Mission Control"]
+        try? task.run()
+    }
+
+    private func triggerSpotlight() {
+        let src = CGEventSource(stateID: .hidSystemState)
+
+        guard let down = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: true),
+              let up = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: false)
+        else { return }
+
+        down.flags = .maskCommand
+        up.flags = .maskCommand
+
+        down.post(tap: .cgSessionEventTap)
+        up.post(tap: .cgSessionEventTap)
+    }
+}
