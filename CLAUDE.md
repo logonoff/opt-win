@@ -45,6 +45,7 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 - **Double press timing**: 300ms threshold between two clean Option releases.
 - **Spotlight trigger**: Posts synthetic Cmd+Space CGEvents (virtual key 0x31).
 - **Mission Control trigger**: Runs `/usr/bin/open -a "Mission Control"`.
+- **Hot corner detection**: Uses velocity-based triggering inspired by GNOME's `PressureBarrier`. GNOME accumulates cursor pressure (100px threshold in a 1000ms window) against pointer barriers. Since macOS pointer barriers are private API, we approximate by measuring cursor speed — only triggers when the cursor enters the 2px corner zone at ≥500 pts/sec, filtering out slow drifts. Resets when cursor leaves the zone.
 - **Hot corner coordinate math**: CGEvent uses flipped coordinates (0,0 = top-left of primary display). NSScreen uses bottom-left origin. Conversion: `cgY = primaryScreenHeight - nsY - screenHeight`.
 - **Ripple animation**: Uses GNOME's exact parameters — three ripples with delays 0/50/350ms, durations 830/1000/1000ms, scale easeOut, opacity easeIn. Quarter-circle shape via CGPath arc.
 - **Permissions**: Requires both **Accessibility** and **Input Monitoring** in System Settings → Privacy & Security. Running from terminal inherits the terminal's permissions; running as a standalone app (via `open`) requires its own grants.
