@@ -9,7 +9,8 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 - **Single press `⌥`** → Opens Mission Control
 - **Double press `⌥`** → Opens Spotlight (simulates Cmd+Space)
 - **Hot corner** → Slamming mouse to top-left corner of any screen opens Mission Control with a GNOME-style ripple animation
-- All three features can be individually toggled on/off via the status bar menu (persisted via UserDefaults, all enabled by default)
+- **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed.
+- All four features can be individually toggled on/off via the status bar menu (persisted via UserDefaults, all enabled by default)
 - **Request Permissions** menu item — checks Accessibility (`AXIsProcessTrusted`) and Input Monitoring (event tap exists), offers buttons to open each settings pane directly
 - Option key detection happens on key-up so existing keyboard shortcuts are unaffected
 
@@ -24,6 +25,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 | `OptionKeyHandler.swift` | Tracks Option key state via `flagsChanged` events. Detects clean single/double presses using a timer. Exposes `onSinglePress` / `onDoublePress` closures. |
 | `HotCorner.swift` | Monitors `mouseMoved` events and detects when cursor hits the top-left corner (2px zone) of any screen. Exposes `onTrigger(NSScreen)` closure. Handles CGEvent↔NSScreen coordinate conversion. |
 | `RippleAnimation.swift` | Ported from GNOME Shell `js/ui/ripples.js`. Three concentric quarter-circle CAShapeLayer ripples with staggered scale/opacity animations. Displays in a borderless transparent window. |
+| `DockLauncher.swift` | Reads persistent dock apps from `com.apple.dock.plist`. Finder is hardcoded at position 1. Launches apps via `NSWorkspace`. |
 
 ## Build & Install
 
@@ -37,7 +39,8 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 
 ## Key Implementation Details
 
-- **Event tap**: Listen-only (`CGEventTapOptions.listenOnly`) on `cgSessionEventTap`. Monitors: `flagsChanged`, `keyDown`, mouse down events, `mouseMoved`. Re-enables itself on `tapDisabledByTimeout`.
+- **Event tap**: Active tap (`CGEventTapOptions.defaultTap`) on `cgSessionEventTap`. Monitors: `flagsChanged`, `keyDown`, mouse down events, `mouseMoved`. Re-enables itself on `tapDisabledByTimeout`. Only Opt+N keyDown events are consumed; all other events pass through unchanged.
+- **Dock shortcuts**: Reads `~/Library/Preferences/com.apple.dock.plist` → `persistent-apps` array. Finder is always position 1. Virtual key codes 0x12–0x19 map to number keys 1–9.
 - **Option key "clean press"**: A press is dirty (ignored) if any other key, mouse button, or modifier is used while Option is held. This prevents triggering on Opt+Tab, Cmd+Opt, Opt+Click, etc.
 - **Double press timing**: 300ms threshold between two clean Option releases.
 - **Spotlight trigger**: Posts synthetic Cmd+Space CGEvents (virtual key 0x31).

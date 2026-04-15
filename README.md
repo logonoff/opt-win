@@ -8,6 +8,7 @@ A tiny macOS menu bar app that repurposes the Option key:
 - **Single press `⌥`** → Mission Control
 - **Double press `⌥`** → Spotlight
 - **Hot corner** → Slam mouse to top-left corner of any screen → Mission Control (with GNOME-style ripple animation)
+- **`⌥`+`1-9`** → Launch the Nth app in your Dock (1 = Finder)
 
 All features can be individually toggled on/off from the menu bar. Detection happens on key-up, so existing keyboard shortcuts using Option are unaffected.
 

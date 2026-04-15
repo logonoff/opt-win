@@ -16,7 +16,9 @@ func eventTapCallback(
         return Unmanaged.passUnretained(event)
     }
 
-    delegate.handleEvent(type: type, event: event)
+    if delegate.handleEvent(type: type, event: event) {
+        return nil // consume the event
+    }
     return Unmanaged.passUnretained(event)
 }
 
@@ -26,10 +28,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var hotCornerMenuItem: NSMenuItem!
     private var optSingleMenuItem: NSMenuItem!
     private var optDoubleMenuItem: NSMenuItem!
+    private var dockShortcutsMenuItem: NSMenuItem!
 
     private let optionKeyHandler = OptionKeyHandler()
     private let hotCorner = HotCorner()
     private let rippleAnimation = RippleAnimation()
+    private let dockLauncher = DockLauncher()
 
     private var hotCornersEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: "hotCornersEnabled") }
@@ -56,6 +60,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private var dockShortcutsEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "dockShortcutsEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "dockShortcutsEnabled")
+            dockShortcutsMenuItem.state = newValue ? .on : .off
+        }
+    }
+
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -63,6 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "hotCornersEnabled": true,
             "optSingleEnabled": true,
             "optDoubleEnabled": true,
+            "dockShortcutsEnabled": true,
         ])
 
         optionKeyHandler.onSinglePress = { [weak self] in
@@ -109,6 +122,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hotCornerMenuItem.state = hotCornersEnabled ? .on : .off
         menu.addItem(hotCornerMenuItem)
 
+        dockShortcutsMenuItem = NSMenuItem(title: "Opt+N → Dock App", action: #selector(toggleDockShortcuts), keyEquivalent: "")
+        dockShortcutsMenuItem.state = dockShortcutsEnabled ? .on : .off
+        menu.addItem(dockShortcutsMenuItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
@@ -126,6 +143,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleHotCorners() {
         hotCornersEnabled = !hotCornersEnabled
+    }
+
+    @objc private func toggleDockShortcuts() {
+        dockShortcutsEnabled = !dockShortcutsEnabled
     }
 
     @objc private func requestPermissions() {
@@ -190,7 +211,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let tap = CGEvent.tapCreate(
             tap: .cgSessionEventTap,
             place: .headInsertEventTap,
-            options: .listenOnly,
+            options: .defaultTap,
             eventsOfInterest: mask,
             callback: eventTapCallback,
             userInfo: selfPtr
@@ -235,11 +256,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Event Routing
 
-    func handleEvent(type: CGEventType, event: CGEvent) {
+    // Virtual key codes for number keys 1–9
+    private static let numberKeyCodes: [Int64: Int] = [
+        0x12: 1, 0x13: 2, 0x14: 3, 0x15: 4, 0x17: 5,
+        0x16: 6, 0x1A: 7, 0x1C: 8, 0x19: 9,
+    ]
+
+    /// Returns true if the event should be consumed (not passed through).
+    @discardableResult
+    func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
         switch type {
         case .flagsChanged:
             optionKeyHandler.handleFlagsChanged(event: event)
         case .keyDown:
+            if dockShortcutsEnabled && event.flags.contains(.maskAlternate) {
+                let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+                if let position = AppDelegate.numberKeyCodes[keyCode] {
+                    optionKeyHandler.markOtherInput()
+                    dockLauncher.launch(position: position)
+                    return true
+                }
+            }
             optionKeyHandler.markOtherInput()
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             optionKeyHandler.markOtherInput()
@@ -248,6 +285,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         default:
             break
         }
+        return false
     }
 
     // MARK: - Actions
