@@ -57,9 +57,18 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 
 ## CI
 
-GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a draft GitHub release with `OptWin.zip` attached.
+GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a GitHub release with `OptWin.zip` attached. Release notes are generated from `git log` since the previous tag. After the release, the workflow auto-updates the Homebrew cask (`Casks/optwin.rb`) with the new version and SHA, and commits to `main`.
 
 A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
+
+## Homebrew
+
+A cask is hosted in this repo at `Casks/optwin.rb`. Install via:
+
+```bash
+brew tap logonoff/opt-win https://github.com/logonoff/opt-win
+brew install --cask optwin
+```
 
 ## License
 

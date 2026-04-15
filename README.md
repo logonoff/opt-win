@@ -13,18 +13,11 @@ A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (T
 
 All features can be individually toggled on/off from the menu bar. Detection happens on key-up, so existing keyboard shortcuts using Option are unaffected.
 
-## Build
-
-```
-./build.sh
-```
-
-Requires Xcode command line tools (`xcode-select --install`).
-
 ## Install
 
 ```
-brew install --cask logonoff/opt-win/optwin
+brew tap logonoff/opt-win https://github.com/logonoff/opt-win
+brew install --cask optwin
 ```
 
 Or build from source:
@@ -33,23 +26,31 @@ Or build from source:
 ./build.sh && ./install.sh
 ```
 
-## Gatekeeper
+### Gatekeeper
 
-The app is not notarized, so macOS will warn about it on first launch. To bypass, run:
+The app is not notarized, so macOS will warn about it on first launch. To bypass this, right-click the app and select "Open". You only need to do this once. Alternatively, you can run the following command in Terminal:
 
 ```
 xattr -d com.apple.quarantine /Applications/OptWin.app
 ```
 
+## Build
+
+```
+./build.sh
+```
+
+Requires Xcode command line tools (`xcode-select --install`).
+
 ## Permissions
 
-OptWin requires two permissions to function:
+OptWin requires two permissions:
 
-1. **Accessibility** (System Settings → Privacy & Security → Accessibility)
-2. **Input Monitoring** (System Settings → Privacy & Security → Input Monitoring)
+1. **Accessibility** — needed to post synthetic key events (Spotlight trigger, Mission Control)
+2. **Input Monitoring** — needed to detect key presses and mouse movement via the global event tap
 
-Use the "Request Permissions..." menu item to open the relevant settings panes.
+Grant both in System Settings → Privacy & Security. Use the "Request Permissions..." menu item to open the relevant panes.
 
 ## License
 
-[WTFPL](LICENSE)
+[WTFPL](http://www.wtfpl.net/)
