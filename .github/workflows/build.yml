@@ -26,7 +26,20 @@ jobs:
           echo "## Changes" > notes.md
           git log --format="- %h %s" "${PREV_TAG}..HEAD" >> notes.md
 
-      - name: Create draft release
-        run: gh release create "${{ github.ref_name }}" build/OptWin.zip --draft --title "${{ github.ref_name }}" --notes-file notes.md
+      - name: Create release
+        run: gh release create "${{ github.ref_name }}" build/OptWin.zip --title "${{ github.ref_name }}" --notes-file notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Homebrew cask
+        run: |
+          SHA=$(shasum -a 256 build/OptWin.zip | awk '{print $1}')
+          sed -i '' "s/version \".*\"/version \"${{ github.ref_name }}\"/" Casks/optwin.rb
+          sed -i '' "s/sha256 \".*\"/sha256 \"${SHA}\"/" Casks/optwin.rb
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/optwin.rb
+          git commit -m "chore: update cask to ${{ github.ref_name }}"
+          git push origin HEAD:main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

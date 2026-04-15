@@ -24,15 +24,21 @@ Requires Xcode command line tools (`xcode-select --install`).
 ## Install
 
 ```
-./install.sh
+brew install --cask logonoff/opt-win/optwin
 ```
 
-Builds (if needed), then moves `OptWin.app` to `/Applications`.
-
-To install and launch immediately:
+Or build from source:
 
 ```
-./install.sh --run
+./build.sh && ./install.sh
+```
+
+## Gatekeeper
+
+The app is not notarized, so macOS will warn about it on first launch. To bypass, run:
+
+```
+xattr -d com.apple.quarantine /Applications/OptWin.app
 ```
 
 ## Permissions
