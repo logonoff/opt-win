@@ -1,6 +1,6 @@
 cask "optwin" do
-  version "0.0.5"
-  sha256 "828cdd559d1f08273b0deeab424c4c21ed9bbe14757b89820c5f6401b0bf8c96"
+  version "0.0.6"
+  sha256 "e046b30d323459e0724a32f746aef2cc6240bd712d1c3299d87ad63ea0072446"
 
   url "https://github.com/logonoff/opt-win/releases/download/#{version}/OptWin.zip"
   name "OptWin"
