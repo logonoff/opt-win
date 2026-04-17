@@ -30,12 +30,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var optDoubleMenuItem: NSMenuItem!
     private var dockShortcutsMenuItem: NSMenuItem!
     private var lockKeyOSDMenuItem: NSMenuItem!
+    private var homeEndRemapMenuItem: NSMenuItem!
 
     private let optionKeyHandler = OptionKeyHandler()
     private let hotCorner = HotCorner()
     private let rippleAnimation = RippleAnimation()
     private let dockLauncher = DockLauncher()
     private let lockKeyOSD = LockKeyOSD()
+    private let homeEndHandler = HomeEndHandler()
     private var lastCapsLockState = false
 
     private var hotCornersEnabled: Bool {
@@ -79,6 +81,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private var homeEndRemapEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "homeEndRemapEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "homeEndRemapEnabled")
+            homeEndRemapMenuItem.state = newValue ? .on : .off
+        }
+    }
+
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -88,6 +98,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "optDoubleEnabled": true,
             "dockShortcutsEnabled": true,
             "lockKeyOSDEnabled": true,
+            "homeEndRemapEnabled": true,
         ])
 
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
@@ -144,6 +155,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         lockKeyOSDMenuItem.state = lockKeyOSDEnabled ? .on : .off
         menu.addItem(lockKeyOSDMenuItem)
 
+        homeEndRemapMenuItem = NSMenuItem(title: "Home/End → Line Start/End", action: #selector(toggleHomeEndRemap), keyEquivalent: "")
+        homeEndRemapMenuItem.state = homeEndRemapEnabled ? .on : .off
+        menu.addItem(homeEndRemapMenuItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "About OptWin", action: #selector(showAbout), keyEquivalent: ""))
@@ -170,6 +185,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleLockKeyOSD() {
         lockKeyOSDEnabled = !lockKeyOSDEnabled
+    }
+
+    @objc private func toggleHomeEndRemap() {
+        homeEndRemapEnabled = !homeEndRemapEnabled
     }
 
     @objc private func requestPermissions() {
@@ -352,6 +371,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     dockLauncher.launch(position: position)
                     return true
                 }
+            }
+            if homeEndRemapEnabled && homeEndHandler.handleKeyDown(event: event) {
+                return true
             }
             optionKeyHandler.markOtherInput()
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
