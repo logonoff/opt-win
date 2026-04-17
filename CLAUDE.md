@@ -9,7 +9,7 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 - **Single press `⌥`** → Opens Mission Control
 - **Double press `⌥`** → Opens Spotlight Applications section (via `spotlight://apps` URL)
 - **Hot corner** → Slamming mouse to top-left corner of any screen opens Mission Control with a GNOME-style ripple animation
-- **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed.
+- **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed. "Finder Position" submenu lets you place Finder at any slot 1–9 (default 1), shifting other apps to fill the gap. Disabled when parent feature is off.
 - **Caps Lock OSD** → Shows a centered on-screen notification ("⇪ Caps Lock On/Off") when Caps Lock is toggled, inspired by gnome-shell-extension-lockkeys
 - **Home/End remap** → When a text field is focused, Home/End keys move the cursor to the start/end of the line (like Windows/Linux) instead of scrolling. Uses the Accessibility API to detect focused text fields. Preserves Shift for text selection.
 - All features can be individually toggled on/off via the status bar menu (persisted via UserDefaults, all enabled by default)

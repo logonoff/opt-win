@@ -8,7 +8,7 @@ A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (T
 - **Single press `⌥`** → Mission Control
 - **Double press `⌥`** → Spotlight Apps
 - **Hot corner** → Slam mouse to top-left corner of any screen → Mission Control (with GNOME-style ripple animation)
-- **`⌥`+`1-9`** → Launch the Nth app in your Dock (1 = Finder)
+- **`⌥`+`1-9`** → Launch the Nth app in your Dock (Finder position configurable)
 - **Caps Lock OSD** → On-screen notification when Caps Lock is toggled
 - **Home/End** → Moves cursor to line start/end in text fields (Linux behavior)
 

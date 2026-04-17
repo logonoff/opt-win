@@ -29,6 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var optSingleMenuItem: NSMenuItem!
     private var optDoubleMenuItem: NSMenuItem!
     private var dockShortcutsMenuItem: NSMenuItem!
+    private var dockFinderPositionMenuItem: NSMenuItem!
     private var lockKeyOSDMenuItem: NSMenuItem!
     private var homeEndRemapMenuItem: NSMenuItem!
 
@@ -70,6 +71,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         set {
             UserDefaults.standard.set(newValue, forKey: "dockShortcutsEnabled")
             dockShortcutsMenuItem.state = newValue ? .on : .off
+            dockFinderPositionMenuItem.isEnabled = newValue
+        }
+    }
+
+    private var dockFinderPosition: Int {
+        get { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "dockFinderPosition")
+            dockFinderPositionMenuItem.title = "  Finder Position: \(newValue)"
         }
     }
 
@@ -97,6 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "optSingleEnabled": true,
             "optDoubleEnabled": true,
             "dockShortcutsEnabled": true,
+            "dockFinderPosition": 1,
             "lockKeyOSDEnabled": true,
             "homeEndRemapEnabled": true,
         ])
@@ -151,6 +162,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dockShortcutsMenuItem.state = dockShortcutsEnabled ? .on : .off
         menu.addItem(dockShortcutsMenuItem)
 
+        dockFinderPositionMenuItem = NSMenuItem(title: "  Finder Position: \(dockFinderPosition)", action: nil, keyEquivalent: "")
+        let positionSubmenu = NSMenu()
+        for i in 1...9 {
+            let item = NSMenuItem(title: "\(i)", action: #selector(setFinderPosition(_:)), keyEquivalent: "")
+            item.tag = i
+            item.state = (i == dockFinderPosition) ? .on : .off
+            positionSubmenu.addItem(item)
+        }
+        dockFinderPositionMenuItem.submenu = positionSubmenu
+        menu.addItem(dockFinderPositionMenuItem)
+
         lockKeyOSDMenuItem = NSMenuItem(title: "Caps Lock OSD", action: #selector(toggleLockKeyOSD), keyEquivalent: "")
         lockKeyOSDMenuItem.state = lockKeyOSDEnabled ? .on : .off
         menu.addItem(lockKeyOSDMenuItem)
@@ -181,6 +203,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleDockShortcuts() {
         dockShortcutsEnabled = !dockShortcutsEnabled
+    }
+
+    @objc private func setFinderPosition(_ sender: NSMenuItem) {
+        dockFinderPosition = sender.tag
+        for item in sender.menu!.items {
+            item.state = (item.tag == sender.tag) ? .on : .off
+        }
     }
 
     @objc private func toggleLockKeyOSD() {
@@ -366,7 +395,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         case .keyDown:
             if dockShortcutsEnabled && event.flags.contains(.maskAlternate) {
                 let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-                if let position = AppDelegate.numberKeyCodes[keyCode] {
+                if let number = AppDelegate.numberKeyCodes[keyCode] {
+                    let finderPos = dockFinderPosition
+                    let position: Int
+                    if number == finderPos {
+                        position = 1 // this slot is Finder
+                    } else if number < finderPos {
+                        position = number + 1 // shift up to make room
+                    } else {
+                        position = number // unchanged
+                    }
                     optionKeyHandler.markOtherInput()
                     dockLauncher.launch(position: position)
                     return true
