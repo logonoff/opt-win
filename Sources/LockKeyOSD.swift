@@ -28,6 +28,9 @@ class LockKeyOSD {
             }
         }
 
+        NSAccessibility.post(element: NSApp as Any, notification: .announcementRequested,
+                             userInfo: [.announcement: text])
+
         let work = DispatchWorkItem { [weak self] in
             self?.dismiss()
         }
@@ -77,7 +80,9 @@ class LockKeyOSD {
         ])
 
         let glass = NSGlassEffectView(frame: NSRect(x: 0, y: 0, width: osdWidth, height: osdHeight))
-        glass.style = NSGlassEffectView.Style(rawValue: 1)! // clear glass
+        if let clearStyle = NSGlassEffectView.Style(rawValue: 1) {
+            glass.style = clearStyle
+        }
         glass.cornerRadius = 9999
         glass.contentView = contentWrapper
 

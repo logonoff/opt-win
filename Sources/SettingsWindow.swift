@@ -10,12 +10,9 @@ struct SettingsView: View {
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
+    @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
 
     var onSettingChanged: ((String, Any) -> Void)?
-
-    private var systemMenuBarBgOn: Bool {
-        UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
-    }
 
     var body: some View {
         Form {
@@ -45,7 +42,11 @@ struct SettingsView: View {
 
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark Menu Bar")
-                    Text("Black bar behind menu bar when a window fills the screen")
+                    if systemMenuBarBgOn {
+                        Text("Disable \"Show menu bar background\" in System Settings to use this")
+                    } else {
+                        Text("Black bar behind menu bar when a window fills the screen")
+                    }
                 }
                 .disabled(systemMenuBarBgOn)
                 .onChange(of: menuBarBg) { _, val in notify("menuBarBgEnabled", val) }

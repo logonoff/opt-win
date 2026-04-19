@@ -78,10 +78,14 @@ class HomeEndHandler {
         let systemWide = AXUIElementCreateSystemWide()
         var focusedElement: AnyObject?
         let result = AXUIElementCopyAttributeValue(systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
-        guard result == .success, let element = focusedElement else { return false }
+        guard result == .success,
+              let element = focusedElement,
+              CFGetTypeID(element) == AXUIElementGetTypeID()
+        else { return false }
 
+        let axElement = element as! AXUIElement
         var roleValue: AnyObject?
-        AXUIElementCopyAttributeValue(element as! AXUIElement, kAXRoleAttribute as CFString, &roleValue)
+        AXUIElementCopyAttributeValue(axElement, kAXRoleAttribute as CFString, &roleValue)
         guard let role = roleValue as? String else { return false }
 
         let textRoles: Set<String> = [

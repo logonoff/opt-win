@@ -62,6 +62,9 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 - **Menu bar background positioning**: macOS constrains normal windows below the menu bar area. `UnconstrainedWindow` overrides `constrainFrameRect(_:to:)` to bypass this. Windows must be created once and never destroyed to avoid position resets. Uses `NSApplication.didChangeScreenParametersNotification` to reposition when screen layout changes. Hides during Mission Control by checking for Dock-owned windows at layer > 0 in `CGWindowListCopyWindowInfo`.
 - **Liquid Glass**: `NSGlassEffectView` is available on macOS 26. Style `1` (`NSGlassEffectView.Style(rawValue: 1)`) gives the "clear glass" variant. Use `contentView` property to embed content, not `addSubview`. `actool` compiles `icon.icon` bundles from Icon Composer into `Assets.car`; requires full Xcode, not just CLT.
 - **Home/End in terminals**: CGEvents can't inject into a terminal's PTY. Terminal apps are skipped; users must configure Home/End in their terminal's keyboard settings and shell (`bindkey` in zsh).
+- **Event tap threading**: The CGEventTap callback runs on the main run loop because `CFRunLoopAddSource` is called with `CFRunLoopGetCurrent()` from `applicationDidFinishLaunching` (main thread). UI calls in the callback are safe without dispatching to main.
+- **Privacy keys**: Info.plist must include `NSAccessibilityUsageDescription` and `NSListenEventUsageDescription` for Accessibility and Input Monitoring permissions.
+- **Ripple window level**: Must use `.screenSaver` (not `.floating`) so the ripple renders above the menu bar. `.floating` renders below it.
 
 ## CI
 

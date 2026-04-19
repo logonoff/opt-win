@@ -16,5 +16,9 @@
     <string>OptWin</string>
     <key>LSUIElement</key>
     <true/>
+    <key>NSAccessibilityUsageDescription</key>
+    <string>OptWin uses Accessibility to detect focused text fields for Home/End key remapping.</string>
+    <key>NSListenEventUsageDescription</key>
+    <string>OptWin monitors keyboard and mouse events for Option key shortcuts and hot corners.</string>
 </dict>
 </plist>
