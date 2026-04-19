@@ -74,6 +74,17 @@ brew tap logonoff/opt-win https://github.com/logonoff/opt-win
 brew install --cask optwin
 ```
 
+## Apple Documentation
+
+To access Apple developer documentation as markdown, replace `developer.apple.com` with `sosumi.ai` in any URL:
+
+- **APIs**: `https://sosumi.ai/documentation/{framework}/{symbol}` (e.g. `https://sosumi.ai/documentation/appkit/nswindow`)
+- **HIG**: `https://sosumi.ai/design/human-interface-guidelines/{topic}`
+- **WWDC transcripts**: `https://sosumi.ai/videos/play/{collection}/{id}`
+- **External Swift-DocC**: `https://sosumi.ai/external/{full-https-url}`
+
+Search before fetching when the path is uncertain. Target specific symbol pages for implementation questions. **All UI changes must consult the HIG** at `https://sosumi.ai/design/human-interface-guidelines` before implementation.
+
 ## License
 
 WTFPL v2.
