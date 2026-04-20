@@ -25,6 +25,9 @@
 /* No comment provided by engineer. */
 "Bold" = "Bold";
 
+/* No comment provided by engineer. */
+"Bookmark Page" = "Bookmark Page";
+
 /* Shortcut category */
 "Browsers" = "Browsers";
 
@@ -33,6 +36,9 @@
 
 /* No comment provided by engineer. */
 "Caps Lock OSD" = "Caps Lock OSD";
+
+/* No comment provided by engineer. */
+"Clear Browsing Data" = "Clear Browsing Data";
 
 /* No comment provided by engineer. */
 "Clicking the green button fills the window instead of entering full screen" = "Clicking the green button fills the window instead of entering full screen";
@@ -100,6 +106,12 @@
 /* No comment provided by engineer. */
 "Find and Replace" = "Find and Replace";
 
+/* No comment provided by engineer. */
+"Find Next" = "Find Next";
+
+/* No comment provided by engineer. */
+"Find Previous" = "Find Previous";
+
 /* Shortcut category */
 "Finder" = "Finder";
 
@@ -142,6 +154,9 @@
 /* No comment provided by engineer. */
 "Insert Link" = "Insert Link";
 
+/* No comment provided by engineer. */
+"Italic" = "Italic";
+
 /* Section header */
 "Keyboard" = "Keyboard";
 
@@ -177,6 +192,9 @@
 
 /* No comment provided by engineer. */
 "New Tab" = "New Tab";
+
+/* No comment provided by engineer. */
+"New Window" = "New Window";
 
 /* Category hint */
 "New, save, print, and quit" = "New, save, print, and quit";
@@ -272,6 +290,12 @@
 "Select Up" = "Select Up";
 
 /* No comment provided by engineer. */
+"Select Word Left" = "Select Word Left";
+
+/* No comment provided by engineer. */
+"Select Word Right" = "Select Word Right";
+
+/* No comment provided by engineer. */
 "Settings" = "Settings";
 
 /* Menu item to open settings window */
@@ -300,6 +324,9 @@
 
 /* Shortcut category */
 "Text Editing" = "Text Editing";
+
+/* No comment provided by engineer. */
+"Toggle Bookmarks Bar" = "Toggle Bookmarks Bar";
 
 /* No comment provided by engineer. */
 "Toggle Comment" = "Toggle Comment";

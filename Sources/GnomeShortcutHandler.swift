@@ -42,7 +42,11 @@ class GnomeShortcutHandler {
         0x11: ["reopenTab"],                    // T
         0x23: ["commandPalette", "privateWindow"], // P
         0x28: ["deleteLine"],                   // K
-        0x24: ["insertLineAbove"]              // Return
+        0x24: ["insertLineAbove"],              // Return
+        0x2D: ["newWindow"],                    // N
+        0x05: ["findPrev"],                     // G
+        0x0B: ["bookmarksBar"],                 // B
+        0x75: ["clearData"]                     // Forward Delete
     ]
 
     // Ctrl+key → Cmd+key (simple modifier swap)
@@ -50,9 +54,11 @@ class GnomeShortcutHandler {
         0x00: ["selectAll"],       // A
         0x0B: ["bold"],            // B
         0x08: ["copy"],            // C
-        0x02: ["duplicate"],       // D
+        0x02: ["duplicate", "bookmark"], // D
         0x0E: ["searchSelection"], // E
         0x03: ["find"],            // F
+        0x05: ["findNext"],        // G
+        0x22: ["italic"],          // I
         0x26: ["downloads"],       // J
         0x28: ["hyperlink"],       // K
         0x25: ["addressBar"],      // L
@@ -166,6 +172,9 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "redo", label: NSLocalizedString("Redo", comment: ""), from: "⌃Y", to: "⌘⇧Z", category: general),
         GnomeShortcutDef(id: "selectAll", label: NSLocalizedString("Select All", comment: ""), from: "⌃A", to: "⌘A", category: general),
         GnomeShortcutDef(id: "find", label: NSLocalizedString("Find", comment: ""), from: "⌃F", to: "⌘F", category: general),
+        GnomeShortcutDef(id: "findNext", label: NSLocalizedString("Find Next", comment: ""), from: "⌃G", to: "⌘G", category: general),
+        GnomeShortcutDef(id: "findPrev", label: NSLocalizedString("Find Previous", comment: ""), from: "⌃⇧G", to: "⌘⇧G", category: general),
+        GnomeShortcutDef(id: "newWindow", label: NSLocalizedString("New Window", comment: ""), from: "⌃⇧N", to: "⌘⇧N", category: general),
         GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""), from: "⌥L", to: "⌃⌘Q", category: general),
         GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run / Confirm", comment: ""), from: "⌃↩", to: "⌘↩", category: general),
         GnomeShortcutDef(id: "hyperlink", label: NSLocalizedString("Insert Link", comment: ""), from: "⌃K", to: "⌘K", category: general),
@@ -185,11 +194,14 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "rename", label: NSLocalizedString("Rename", comment: ""), from: "F2", to: "↩", category: finder),
 
         GnomeShortcutDef(id: "bold", label: NSLocalizedString("Bold", comment: ""), from: "⌃B", to: "⌘B", category: textEditing),
+        GnomeShortcutDef(id: "italic", label: NSLocalizedString("Italic", comment: ""), from: "⌃I", to: "⌘I", category: textEditing),
         GnomeShortcutDef(id: "underline", label: NSLocalizedString("Underline", comment: ""), from: "⌃U", to: "⌘U", category: textEditing),
         GnomeShortcutDef(id: "deleteWord", label: NSLocalizedString("Delete Word", comment: ""), from: "⌃⌫", to: "⌥⌫", category: textEditing),
         GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Fwd Delete Word", comment: ""), from: "⌃⌦", to: "⌥⌦", category: textEditing),
         GnomeShortcutDef(id: "wordLeft", label: NSLocalizedString("Word Left", comment: ""), from: "⌃←", to: "⌥←", category: textEditing),
         GnomeShortcutDef(id: "wordRight", label: NSLocalizedString("Word Right", comment: ""), from: "⌃→", to: "⌥→", category: textEditing),
+        GnomeShortcutDef(id: "selectWordLeft", label: NSLocalizedString("Select Word Left", comment: ""), from: "⌃⇧←", to: "⌥⇧←", category: textEditing),
+        GnomeShortcutDef(id: "selectWordRight", label: NSLocalizedString("Select Word Right", comment: ""), from: "⌃⇧→", to: "⌥⇧→", category: textEditing),
         GnomeShortcutDef(id: "selectDown", label: NSLocalizedString("Select Down", comment: ""), from: "⌃⇧↓", to: "⇧↓", category: textEditing),
         GnomeShortcutDef(id: "selectUp", label: NSLocalizedString("Select Up", comment: ""), from: "⌃⇧↑", to: "⇧↑", category: textEditing),
 
@@ -206,6 +218,9 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("View History", comment: ""), from: "⌃H", to: "⌘Y", category: browsers),
         GnomeShortcutDef(id: "viewSource", label: NSLocalizedString("View Source", comment: ""), from: "⌃U", to: "⌘U", category: browsers),
         GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), from: "⌃⇧P", to: "⌘⇧P", category: browsers),
+        GnomeShortcutDef(id: "bookmark", label: NSLocalizedString("Bookmark Page", comment: ""), from: "⌃D", to: "⌘D", category: browsers),
+        GnomeShortcutDef(id: "bookmarksBar", label: NSLocalizedString("Toggle Bookmarks Bar", comment: ""), from: "⌃⇧B", to: "⌘⇧B", category: browsers),
+        GnomeShortcutDef(id: "clearData", label: NSLocalizedString("Clear Browsing Data", comment: ""), from: "⌃⇧⌦", to: "⌘⇧⌫", category: browsers),
 
         GnomeShortcutDef(id: "termCopy", label: NSLocalizedString("Copy", comment: ""), from: "⌃⇧C", to: "⌘C", category: terminal),
         GnomeShortcutDef(id: "termPaste", label: NSLocalizedString("Paste", comment: ""), from: "⌃⇧V", to: "⌘V", category: terminal),
@@ -304,6 +319,12 @@ extension GnomeShortcutHandler {
         }
         if keyCode == Self.keyForwardDelete && !hasShift && isEnabled("forwardDeleteWord") { // Ctrl+⌦ → ⌥⌦
             return remap(Self.keyForwardDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyLeft && isEnabled("selectWordLeft") { // Ctrl+Shift+← → ⌥⇧←
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyRight && isEnabled("selectWordRight") { // Ctrl+Shift+→ → ⌥⇧→
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if keyCode == Self.keyLeft && isEnabled("wordLeft") { // Ctrl+← → ⌥←
             return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
