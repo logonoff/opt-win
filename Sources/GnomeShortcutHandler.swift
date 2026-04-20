@@ -32,6 +32,7 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "save",       label: NSLocalizedString("Save", comment: ""),         from: "⌃S",  to: "⌘S",   category: general),
         GnomeShortcutDef(id: "new",        label: NSLocalizedString("New", comment: ""),          from: "⌃N",  to: "⌘N",   category: general),
         GnomeShortcutDef(id: "print",      label: NSLocalizedString("Print", comment: ""),        from: "⌃P",  to: "⌘P",   category: general),
+        GnomeShortcutDef(id: "quit",       label: NSLocalizedString("Quit", comment: ""),         from: "⌃Q",  to: "⌘Q",   category: general),
         GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""),  from: "⌥L",  to: "⌃⌘Q",  category: general),
 
         GnomeShortcutDef(id: "getInfo",      label: NSLocalizedString("Properties", comment: ""),    from: "⌥↩", to: "⌘I",  category: finder),
@@ -67,6 +68,7 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "termPaste",       label: NSLocalizedString("Paste", comment: ""),        from: "⌃⇧V", to: "⌘V", category: terminal),
         GnomeShortcutDef(id: "termCloseTab",    label: NSLocalizedString("Close Tab", comment: ""),    from: "⌃⇧W", to: "⌘W", category: terminal),
         GnomeShortcutDef(id: "termCloseWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌃⇧Q", to: "⌘Q", category: terminal),
+        GnomeShortcutDef(id: "termNewTab",      label: NSLocalizedString("New Tab", comment: ""),      from: "⌃⇧T", to: "⌘T", category: terminal),
 
         GnomeShortcutDef(id: "settings",        label: NSLocalizedString("Settings", comment: ""),          from: "⌃,",  to: "⌘,",   category: codeEditor),
         GnomeShortcutDef(id: "toggleComment",   label: NSLocalizedString("Toggle Comment", comment: ""),    from: "⌃/",  to: "⌘/",   category: codeEditor),
@@ -103,6 +105,7 @@ class GnomeShortcutHandler {
     private static let terminalShiftMap: [Int64: String] = [
         0x08: "termCopy",        // C
         0x09: "termPaste",       // V
+        0x11: "termNewTab",      // T
         0x0D: "termCloseTab",    // W
         0x0C: "termCloseWindow", // Q
     ]
@@ -130,6 +133,7 @@ class GnomeShortcutHandler {
         0x25: ["addressBar"],      // L
         0x2D: ["new"],             // N
         0x23: ["print"],           // P
+        0x0C: ["quit"],            // Q
         0x0F: ["reload"],          // R
         0x01: ["save"],            // S
         0x11: ["newTab"],          // T
