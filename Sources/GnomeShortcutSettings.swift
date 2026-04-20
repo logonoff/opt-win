@@ -27,4 +27,29 @@ class GnomeShortcutSettings: ObservableObject {
             set: { [weak self] in self?.setEnabled(id, $0) }
         )
     }
+
+    enum CategoryState {
+        case allOn, allOff, mixed
+    }
+
+    func categoryState(_ category: String) -> CategoryState {
+        let ids = GnomeShortcutHandler.shortcuts(in: category).map(\.id)
+        let enabledCount = ids.filter { isEnabled($0) }.count
+        if enabledCount == ids.count { return .allOn }
+        if enabledCount == 0 { return .allOff }
+        return .mixed
+    }
+
+    func setCategoryEnabled(_ category: String, _ enabled: Bool) {
+        for shortcut in GnomeShortcutHandler.shortcuts(in: category) {
+            setEnabled(shortcut.id, enabled)
+        }
+    }
+
+    func categoryBinding(_ category: String) -> Binding<Bool> {
+        Binding(
+            get: { [weak self] in self?.categoryState(category) != .allOff },
+            set: { [weak self] in self?.setCategoryEnabled(category, $0) }
+        )
+    }
 }

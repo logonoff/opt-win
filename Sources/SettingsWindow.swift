@@ -1,6 +1,22 @@
 import Cocoa
 import SwiftUI
 
+private extension View {
+    @ViewBuilder
+    func mixed(_ isMixed: Bool) -> some View {
+        if isMixed {
+            self.allowsHitTesting(true)
+                .overlay(alignment: .leading) {
+                    Image(systemName: "minus.square.fill")
+                        .foregroundStyle(.white, .tint)
+                        .allowsHitTesting(false)
+                }
+        } else {
+            self
+        }
+    }
+}
+
 // genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
 private let _extraStrings = [
     NSLocalizedString("Desktop", comment: "Section header"),
@@ -179,27 +195,12 @@ struct SettingsView: View {
                                 .frame(height: 20)
                             }
                         } label: {
-                            Button {
-                                withAnimation {
-                                    if expandedCategories.contains(category) {
-                                        expandedCategories.remove(category)
-                                    } else {
-                                        expandedCategories.insert(category)
-                                    }
-                                }
-                            } label: {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(category)
-                                    if let hint = Self.categoryHints[category] {
-                                        Text(hint)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
+                            CategoryLabel(
+                                category: category,
+                                hint: Self.categoryHints[category],
+                                settings: gnomeSettings,
+                                expandedCategories: $expandedCategories
+                            )
                         }
                     }
                 }
@@ -237,6 +238,42 @@ struct SettingsView: View {
 
     private func notify(_ key: String, _ value: Any) {
         onSettingChanged?(key, value)
+    }
+}
+
+private struct CategoryLabel: View {
+    let category: String
+    let hint: String?
+    @ObservedObject var settings: GnomeShortcutSettings
+    @Binding var expandedCategories: Set<String>
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Toggle(isOn: settings.categoryBinding(category)) { EmptyView() }
+                .toggleStyle(.checkbox)
+                .mixed(settings.categoryState(category) == .mixed)
+                .padding(.leading, 4)
+
+            Button {
+                withAnimation {
+                    if expandedCategories.contains(category) {
+                        expandedCategories.remove(category)
+                    } else {
+                        expandedCategories.insert(category)
+                    }
+                }
+            } label: {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(category)
+                    if let hint {
+                        Text(hint).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
     }
 }
 
