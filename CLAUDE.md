@@ -117,6 +117,10 @@ To access Apple developer documentation as markdown, replace `developer.apple.co
 
 Search before fetching when the path is uncertain. Target specific symbol pages for implementation questions. **All UI changes must consult the HIG** at `https://sosumi.ai/design/human-interface-guidelines` before implementation.
 
+## Website
+
+The project website is at `docs/index.html`, served via GitHub Pages from the `main` branch `/docs` folder. Keep it updated when adding or changing features.
+
 ## Git
 
 Do not add a `Co-Authored-By` trailer to commit messages.
