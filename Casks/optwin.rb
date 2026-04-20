@@ -12,6 +12,6 @@ cask "optwin" do
   app "OptWin.app"
 
   zap trash: [
-    "~/Library/Preferences/com.local.optwin.plist",
+    "~/Library/Preferences/co.logonoff.optwin.plist",
   ]
 end

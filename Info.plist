@@ -5,7 +5,7 @@
     <key>CFBundleName</key>
     <string>OptWin</string>
     <key>CFBundleIdentifier</key>
-    <string>com.local.optwin</string>
+    <string>co.logonoff.optwin</string>
     <key>CFBundleVersion</key>
     <string>1.0</string>
     <key>CFBundleShortVersionString</key>
@@ -14,6 +14,18 @@
     <string>APPL</string>
     <key>CFBundleExecutable</key>
     <string>OptWin</string>
+    <key>CFBundleDisplayName</key>
+    <string>OptWin</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>26.0</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>WTFPL v2. This program is free software. It comes without any warranty, to the extent permitted by applicable law.</string>
     <key>LSUIElement</key>
     <true/>
     <key>NSAccessibilityUsageDescription</key>
