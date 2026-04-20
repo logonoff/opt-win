@@ -148,9 +148,6 @@
 /* Menu item to toggle start at login */
 "Launch at Login" = "Launch at Login";
 
-/* About panel license text */
-"License: WTFPL v2" = "License: WTFPL v2";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "Lock Screen";
 
@@ -297,9 +294,6 @@
 
 /* Shortcut category */
 "Text Editing" = "Text Editing";
-
-/* About panel warranty disclaimer */
-"This program is free software. It comes without any warranty, to the extent permitted by applicable law." = "This program is free software. It comes without any warranty, to the extent permitted by applicable law.";
 
 /* No comment provided by engineer. */
 "Toggle Comment" = "Toggle Comment";

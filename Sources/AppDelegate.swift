@@ -200,17 +200,8 @@ extension AppDelegate {
         let credits = NSMutableAttributedString()
         let githubText = NSLocalizedString("GitHub", comment: "About panel link text")
         let githubURL = URL(string: "https://github.com/logonoff/opt-win")!
-        credits.append(NSAttributedString(string: githubText + "\n", attributes: [
+        credits.append(NSAttributedString(string: githubText, attributes: [
             .font: font, .link: githubURL, .paragraphStyle: style
-        ]))
-        let licenseText = NSLocalizedString("License: WTFPL v2", comment: "About panel license text")
-        credits.append(NSAttributedString(string: licenseText + "\n", attributes: [
-            .font: font, .paragraphStyle: style
-        ]))
-        // swiftlint:disable:next line_length
-        let warrantyText = NSLocalizedString("This program is free software. It comes without any warranty, to the extent permitted by applicable law.", comment: "About panel warranty disclaimer")
-        credits.append(NSAttributedString(string: warrantyText, attributes: [
-            .font: font, .paragraphStyle: style
         ]))
         NSApplication.shared.orderFrontStandardAboutPanel(options: [.version: "", .credits: credits])
     }
