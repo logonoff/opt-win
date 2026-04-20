@@ -32,6 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let dockLauncher = DockLauncher()
     private let lockKeyOSD = LockKeyOSD()
     private let homeEndHandler = HomeEndHandler()
+    private let gnomeShortcutHandler = GnomeShortcutHandler()
+    private let finderCutHandler = FinderCutHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
     private var lastCapsLockState = false
@@ -46,6 +48,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "lockKeyOSDEnabled": true,
         "homeEndRemapEnabled": true,
         "menuBarBgEnabled": false,
+        "gnomeShortcutsEnabled": false,
+        "finderCutEnabled": false,
         "dockFinderPosition": 1,
     ]
 
@@ -59,6 +63,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             hotCorner.enabled = value as? Bool ?? true
         case "menuBarBgEnabled":
             if value as? Bool == true { menuBarBackground.start() } else { menuBarBackground.stop() }
+        case "gnomeDisabledShortcuts":
+            gnomeShortcutHandler.reloadSettings()
         default:
             break
         }
@@ -315,6 +321,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
             if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) {
+                return true
+            }
+            if isEnabled("finderCutEnabled") && finderCutHandler.handleKeyDown(event: event) {
+                optionKeyHandler.markOtherInput()
+                return true
+            }
+            if isEnabled("gnomeShortcutsEnabled") && gnomeShortcutHandler.handleKeyDown(event: event) {
+                optionKeyHandler.markOtherInput()
                 return true
             }
             optionKeyHandler.markOtherInput()

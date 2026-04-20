@@ -9,30 +9,18 @@ struct SettingsView: View {
     @AppStorage("dockFinderPosition") var finderPosition = 1
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
+    @AppStorage("finderCutEnabled") var finderCut = false
+    @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
+
+    @StateObject private var gnomeSettings = GnomeShortcutSettings()
+    @State private var expandedCategories: Set<String> = []
 
     var onSettingChanged: ((String, Any) -> Void)?
 
     var body: some View {
         Form {
-            Section("Option Key") {
-                Toggle("⌥ → Mission Control", isOn: $optSingle)
-                    .onChange(of: optSingle) { _, val in notify("optSingleEnabled", val) }
-                Toggle("⌥⌥ → Apps", isOn: $optDouble)
-                    .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
-            }
-
-            Section("Dock Shortcuts") {
-                Toggle("⌥+N → Dock App", isOn: $dockShortcuts)
-                    .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
-                Picker("Finder Position", selection: $finderPosition) {
-                    ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
-                }
-                .onChange(of: finderPosition) { _, val in notify("dockFinderPosition", val) }
-                .help("Which ⌥+N slot opens Finder")
-            }
-
             Section("Desktop") {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot Corner")
@@ -65,9 +53,94 @@ struct SettingsView: View {
                 }
                 .onChange(of: homeEndRemap) { _, val in notify("homeEndRemapEnabled", val) }
             }
+
+            Section("GNOME-style Shortcuts") {
+                Toggle("⌥ → Mission Control", isOn: $optSingle)
+                    .onChange(of: optSingle) { _, val in notify("optSingleEnabled", val) }
+                Toggle("⌥⌥ → Apps", isOn: $optDouble)
+                    .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
+
+                Toggle("⌥+N → Dock App", isOn: $dockShortcuts)
+                    .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
+                Picker("Finder Position", selection: $finderPosition) {
+                    ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
+                }
+                .onChange(of: finderPosition) { _, val in notify("dockFinderPosition", val) }
+                .help("Which ⌥+N slot opens Finder")
+
+                Toggle(isOn: $finderCut) {
+                    Text("Cut & Paste Files in Finder")
+                    Text("⌃X then ⌃V moves files instead of duplicating")
+                }
+                .onChange(of: finderCut) { _, val in notify("finderCutEnabled", val) }
+
+                Toggle(isOn: $gnomeShortcuts) {
+                    Text("Ctrl → ⌘ Keyboard Shortcuts")
+                    Text("Remap Ctrl+key to ⌘+key and other Linux-style shortcuts")
+                }
+                .onChange(of: gnomeShortcuts) { _, val in notify("gnomeShortcutsEnabled", val) }
+
+                if gnomeShortcuts {
+                    ForEach(GnomeShortcutHandler.categories, id: \.self) { category in
+                        DisclosureGroup(
+                            isExpanded: Binding(
+                                get: { expandedCategories.contains(category) },
+                                set: { expanded in
+                                    withAnimation {
+                                        if expanded {
+                                            expandedCategories.insert(category)
+                                        } else {
+                                            expandedCategories.remove(category)
+                                        }
+                                    }
+                                }
+                            )
+                        ) {
+                            ForEach(GnomeShortcutHandler.shortcuts(in: category)) { shortcut in
+                                Toggle(isOn: gnomeSettings.binding(for: shortcut.id)) {
+                                    HStack {
+                                        Text(shortcut.label)
+                                            .frame(width: 130, alignment: .leading)
+                                        HStack(spacing: 4) {
+                                            Text(shortcut.from)
+                                                .foregroundStyle(.secondary)
+                                            Text("▸")
+                                                .foregroundStyle(.secondary.opacity(0.5))
+                                            Text(shortcut.to)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .contentShape(Rectangle())
+                                }
+                                .toggleStyle(.checkbox)
+                                .frame(height: 20)
+                            }
+                        } label: {
+                            Button {
+                                withAnimation {
+                                    if expandedCategories.contains(category) {
+                                        expandedCategories.remove(category)
+                                    } else {
+                                        expandedCategories.insert(category)
+                                    }
+                                }
+                            } label: {
+                                Text(category)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+            }
+            .onChange(of: gnomeSettings.disabledShortcuts) { _, _ in
+                notify("gnomeDisabledShortcuts", 0)
+            }
         }
         .formStyle(.grouped)
-        .frame(width: 420, height: 480)
+        .frame(width: 420, height: 600)
         .toggleStyle(.switch)
     }
 
@@ -95,7 +168,7 @@ class SettingsWindowController: NSObject {
         let hostingView = NSHostingView(rootView: settingsView)
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 480),
+            contentRect: NSRect(x: 0, y: 0, width: 420, height: 600),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
