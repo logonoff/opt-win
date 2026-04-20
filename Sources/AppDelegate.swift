@@ -241,6 +241,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             | (1 << CGEventType.rightMouseDown.rawValue)
             | (1 << CGEventType.otherMouseDown.rawValue)
             | (1 << CGEventType.mouseMoved.rawValue)
+            | (1 << CGEventType.scrollWheel.rawValue)
 
         let selfPtr = Unmanaged.passUnretained(self).toOpaque()
 
@@ -377,6 +378,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             optionKeyHandler.markOtherInput()
         case .mouseMoved:
             hotCorner.handleMouseMoved(event: event)
+        case .scrollWheel:
+            if isEnabled("gnomeShortcutsEnabled") && gnomeShortcutHandler.handleScroll(event: event) {
+                return true
+            }
         default:
             break
         }

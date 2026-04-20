@@ -8,7 +8,13 @@
 "Accessibility" = "Accessibility";
 
 /* Category hint */
+"Active only in browsers" = "Active only in browsers";
+
+/* Category hint */
 "Active only in code editors" = "Active only in code editors";
+
+/* Category hint */
+"Active only in Finder" = "Active only in Finder";
 
 /* Category hint */
 "Active only in terminal apps" = "Active only in terminal apps";
@@ -49,6 +55,9 @@
 /* No comment provided by engineer. */
 "Copy" = "Copy";
 
+/* Category hint */
+"Copy, paste, undo, find, and other essentials" = "Copy, paste, undo, find, and other essentials";
+
 /* No comment provided by engineer. */
 "Ctrl → ⌘ Keyboard Shortcuts" = "Ctrl → ⌘ Keyboard Shortcuts";
 
@@ -81,6 +90,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicate";
+
+/* Shortcut category */
+"File" = "File";
 
 /* No comment provided by engineer. */
 "Find" = "Find";
@@ -163,6 +175,9 @@
 /* No comment provided by engineer. */
 "New Tab" = "New Tab";
 
+/* Category hint */
+"New, save, print, and quit" = "New, save, print, and quit";
+
 /* Button to open Accessibility preferences */
 "Open Accessibility" = "Open Accessibility";
 
@@ -233,6 +248,9 @@
 "Save" = "Save";
 
 /* No comment provided by engineer. */
+"Scroll Zoom" = "Scroll Zoom";
+
+/* No comment provided by engineer. */
 "Search Selection" = "Search Selection";
 
 /* No comment provided by engineer. */
@@ -249,6 +267,9 @@
 
 /* No comment provided by engineer. */
 "Shows an on-screen notification when Caps Lock is toggled" = "Shows an on-screen notification when Caps Lock is toggled";
+
+/* Category hint */
+"Tab and window management" = "Tab and window management";
 
 /* Shortcut category */
 "Tabs & Windows" = "Tabs & Windows";
@@ -274,6 +295,9 @@
 /* No comment provided by engineer. */
 "Undo" = "Undo";
 
+/* Shortcut category */
+"View" = "View";
+
 /* No comment provided by engineer. */
 "View History" = "View History";
 
@@ -286,8 +310,14 @@
 /* No comment provided by engineer. */
 "Word Right" = "Word Right";
 
+/* Category hint */
+"Word-level navigation, deletion, and formatting" = "Word-level navigation, deletion, and formatting";
+
 /* Alert body directing user to login items settings */
 "You can manage login items in System Settings → General → Login Items." = "You can manage login items in System Settings → General → Login Items.";
+
+/* Category hint */
+"Zoom and full screen" = "Zoom and full screen";
 
 /* No comment provided by engineer. */
 "Zoom In" = "Zoom In";

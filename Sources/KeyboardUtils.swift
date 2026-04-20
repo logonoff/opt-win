@@ -29,6 +29,25 @@ enum KeyboardUtils {
         return terminalBundleIDs.contains(bundleID)
     }
 
+    static let browserBundleIDs: Set<String> = [
+        "com.apple.Safari",
+        "org.mozilla.firefox",
+        "com.google.Chrome",
+        "com.microsoft.edgemac",
+        "com.brave.Browser",
+        "com.operasoftware.Opera",
+        "com.vivaldi.Vivaldi",
+        "org.chromium.Chromium",
+        "company.thebrowser.Browser", // Arc
+    ]
+
+    static func isBrowserApp() -> Bool {
+        guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
+            return false
+        }
+        return browserBundleIDs.contains(bundleID)
+    }
+
     static let codeEditorBundleIDs: Set<String> = [
         "com.microsoft.VSCode",
         "com.todesktop.230313mzl4w4u92", // Cursor

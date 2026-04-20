@@ -9,6 +9,13 @@ private let _extraStrings = [
     NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
     NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
     NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
+    NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
+    NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
+    NSLocalizedString("Zoom and full screen", comment: "Category hint"),
+    NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
+    NSLocalizedString("Active only in Finder", comment: "Category hint"),
+    NSLocalizedString("Tab and window management", comment: "Category hint"),
+    NSLocalizedString("Active only in browsers", comment: "Category hint"),
     NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
     NSLocalizedString("Active only in code editors", comment: "Category hint"),
 ]
@@ -181,6 +188,20 @@ struct SettingsView: View {
     }
 
     private static let categoryHints: [String: String] = [
+        NSLocalizedString("General", comment: "Shortcut category"):
+            NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
+        NSLocalizedString("File", comment: "Shortcut category"):
+            NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
+        NSLocalizedString("View", comment: "Shortcut category"):
+            NSLocalizedString("Zoom and full screen", comment: "Category hint"),
+        NSLocalizedString("Text Editing", comment: "Shortcut category"):
+            NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
+        NSLocalizedString("Finder", comment: "Shortcut category"):
+            NSLocalizedString("Active only in Finder", comment: "Category hint"),
+        NSLocalizedString("Tabs & Windows", comment: "Shortcut category"):
+            NSLocalizedString("Tab and window management", comment: "Category hint"),
+        NSLocalizedString("Browsers", comment: "Shortcut category"):
+            NSLocalizedString("Active only in browsers", comment: "Category hint"),
         NSLocalizedString("Terminal", comment: "Shortcut category"):
             NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
         NSLocalizedString("Code Editor", comment: "Shortcut category"):
