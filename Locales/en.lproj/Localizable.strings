@@ -266,6 +266,12 @@
 "Select All" = "Select All";
 
 /* No comment provided by engineer. */
+"Select Down" = "Select Down";
+
+/* No comment provided by engineer. */
+"Select Up" = "Select Up";
+
+/* No comment provided by engineer. */
 "Settings" = "Settings";
 
 /* Menu item to open settings window */

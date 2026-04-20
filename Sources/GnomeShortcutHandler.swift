@@ -84,6 +84,8 @@ class GnomeShortcutHandler {
     private static let keyDelete: Int64 = 0x33
     private static let keyLeft: Int64 = 0x7B
     private static let keyRight: Int64 = 0x7C
+    private static let keyUp: Int64 = 0x7E
+    private static let keyDown: Int64 = 0x7D
     private static let keyF4: Int64 = 0x76
     private static let keyReturn: Int64 = 0x24
     private static let keyI: Int64 = 0x22
@@ -129,7 +131,7 @@ class GnomeShortcutHandler {
 
     /// Swaps modifier flags, posts the key, always returns true.
     private func remap(_ keyCode: Int64, flags: CGEventFlags,
-                       remove: CGEventFlags = [], add: CGEventFlags) -> Bool {
+                       remove: CGEventFlags = [], add: CGEventFlags = []) -> Bool {
         var newFlags = flags
         newFlags.remove(remove)
         newFlags.insert(add)
@@ -188,6 +190,8 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Fwd Delete Word", comment: ""), from: "⌃⌦", to: "⌥⌦", category: textEditing),
         GnomeShortcutDef(id: "wordLeft", label: NSLocalizedString("Word Left", comment: ""), from: "⌃←", to: "⌥←", category: textEditing),
         GnomeShortcutDef(id: "wordRight", label: NSLocalizedString("Word Right", comment: ""), from: "⌃→", to: "⌥→", category: textEditing),
+        GnomeShortcutDef(id: "selectDown", label: NSLocalizedString("Select Down", comment: ""), from: "⌃⇧↓", to: "⇧↓", category: textEditing),
+        GnomeShortcutDef(id: "selectUp", label: NSLocalizedString("Select Up", comment: ""), from: "⌃⇧↑", to: "⇧↑", category: textEditing),
 
         GnomeShortcutDef(id: "newTab", label: NSLocalizedString("New Tab", comment: ""), from: "⌃T", to: "⌘T", category: tabsWindows),
         GnomeShortcutDef(id: "closeTab", label: NSLocalizedString("Close Tab", comment: ""), from: "⌃W", to: "⌘W", category: tabsWindows),
@@ -289,8 +293,9 @@ extension GnomeShortcutHandler {
 
     /// Handles Ctrl+key remaps that need non-standard modifier changes.
     /// Returns `true` if consumed, `false` if not consumed, `nil` if not handled.
-    private func handleCtrlSpecialKey(keyCode: Int64, flags: CGEventFlags,
-                                      hasShift: Bool) -> Bool? {
+    private func handleCtrlSpecialKey( // swiftlint:disable:this cyclomatic_complexity
+        keyCode: Int64, flags: CGEventFlags, hasShift: Bool
+    ) -> Bool? {
         if keyCode == Self.keyY && !hasShift && isEnabled("redo") { // Ctrl+Y → ⌘⇧Z
             return remap(Self.keyZ, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
         }
@@ -305,6 +310,12 @@ extension GnomeShortcutHandler {
         }
         if keyCode == Self.keyRight && isEnabled("wordRight") { // Ctrl+→ → ⌥→
             return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyDown && isEnabled("selectDown") { // Ctrl+Shift+↓ → Shift+↓
+            return remap(keyCode, flags: flags, remove: .maskControl)
+        }
+        if hasShift && keyCode == Self.keyUp && isEnabled("selectUp") { // Ctrl+Shift+↑ → Shift+↑
+            return remap(keyCode, flags: flags, remove: .maskControl)
         }
         if hasShift && keyCode == Self.keyI && isEnabled("devTools") { // Ctrl+Shift+I → ⌘⌥I
             return remap(Self.keyI, flags: flags, remove: [.maskControl, .maskShift],
