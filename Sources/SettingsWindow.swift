@@ -62,11 +62,13 @@ struct SettingsView: View {
 
                 Toggle("⌥+N → Dock App", isOn: $dockShortcuts)
                     .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
-                Picker("Finder Position", selection: $finderPosition) {
+                Picker(selection: $finderPosition) {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
+                } label: {
+                    Text("Finder Position")
+                    Text("Which ⌥+N slot opens Finder (other apps shift to fill)")
                 }
                 .onChange(of: finderPosition) { _, val in notify("dockFinderPosition", val) }
-                .help("Which ⌥+N slot opens Finder")
 
                 Toggle(isOn: $finderCut) {
                     Text("Cut & Paste Files in Finder")
@@ -140,7 +142,8 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 420, height: 600)
+        .frame(width: 420)
+        .frame(minHeight: 400, idealHeight: 600)
         .toggleStyle(.switch)
     }
 
@@ -167,17 +170,20 @@ class SettingsWindowController: NSObject {
 
         let hostingView = NSHostingView(rootView: settingsView)
 
+        // HIG says settings windows should auto-size to content, but our disclosure
+        // groups make content height vary dramatically — resizable is more practical.
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 420, height: 600),
-            styleMask: [.titled, .closable],
+            styleMask: [.titled, .closable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.title = "OptWin Settings"
         window.center()
         window.isReleasedWhenClosed = false
+        window.minSize = NSSize(width: 420, height: 400)
+        window.maxSize = NSSize(width: 420, height: CGFloat.greatestFiniteMagnitude)
         window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
-        window.standardWindowButton(.zoomButton)?.isEnabled = false
         window.contentView = hostingView
 
         window.makeKeyAndOrderFront(nil)
