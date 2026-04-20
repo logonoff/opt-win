@@ -37,6 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let finderCutHandler = FinderCutHandler()
     private let middleClickPasteHandler = MiddleClickPasteHandler()
     private let zoomButtonHandler = ZoomButtonHandler()
+    private let scrollZoomHandler = ScrollZoomHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
     private var lastCapsLockState = false
@@ -55,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
         "zoomButtonEnabled": false,
+        "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "dockFinderPosition": 1
     ]
 
@@ -141,7 +143,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         CGEvent.tapEnable(tap: tap, enable: true)
         return true
     }
-
     // MARK: - Actions
 
     fileprivate func triggerMissionControl() {
@@ -150,14 +151,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         task.arguments = ["-a", "Mission Control"]
         try? task.run()
     }
-
     fileprivate func triggerSpotlight() {
         NSWorkspace.shared.open(URL(string: "spotlight://apps")!)
     }
 }
 
 // MARK: - Status Bar
-
 extension AppDelegate {
     fileprivate func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -260,7 +259,8 @@ extension AppDelegate {
             if handleMouseDown(type: type, event: event) { return true }
         case .mouseMoved: hotCorner.handleMouseMoved(event: event)
         case .scrollWheel:
-            if isEnabled("gnomeShortcutsEnabled") && gnomeShortcutHandler.handleScroll(event: event) { return true }
+            if KeyboardUtils.isBrowserApp()
+                && scrollZoomHandler.handleScroll(event: event) { return true }
         default: break
         }
         return false

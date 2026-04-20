@@ -17,7 +17,12 @@ private let _extraStrings = [
     NSLocalizedString("Tab and window management", comment: "Category hint"),
     NSLocalizedString("Active only in browsers", comment: "Category hint"),
     NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
-    NSLocalizedString("Active only in code editors", comment: "Category hint")
+    NSLocalizedString("Active only in code editors", comment: "Category hint"),
+    NSLocalizedString("Off", comment: "Scroll zoom picker option"),
+    NSLocalizedString("Natural", comment: "Scroll zoom picker option"),
+    NSLocalizedString("Traditional", comment: "Scroll zoom picker option"),
+    NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
+    NSLocalizedString("⌃Scroll zooms in and out in browser apps", comment: "Picker description")
 ]
 
 struct SettingsView: View {
@@ -31,6 +36,7 @@ struct SettingsView: View {
     @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("finderCutEnabled") var finderCut = false
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
+    @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
@@ -109,9 +115,18 @@ struct SettingsView: View {
                 }
                 .onChange(of: middleClickPaste) { _, val in notify("middleClickPasteEnabled", val) }
 
+                Picker(selection: $scrollZoomMode) {
+                    Text("Off").tag(ScrollZoomMode.off.rawValue)
+                    Text("Natural").tag(ScrollZoomMode.natural.rawValue)
+                    Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
+                } label: {
+                    Text("Scroll Zoom in Browsers")
+                    Text("⌃Scroll zooms in and out in browser apps")
+                }
+
                 Toggle(isOn: $gnomeShortcuts) {
-                    Text("Ctrl → ⌘ Keyboard Shortcuts")
-                    Text("Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts")
+                    Text("Shortcut Remapping")
+                    Text("Maps Linux keyboard shortcuts to their Mac equivalents")
                 }
                 .onChange(of: gnomeShortcuts) { _, val in notify("gnomeShortcutsEnabled", val) }
 

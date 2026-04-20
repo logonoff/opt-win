@@ -59,9 +59,6 @@
 "Copy, paste, undo, find, and other essentials" = "Copy, paste, undo, find, and other essentials";
 
 /* No comment provided by engineer. */
-"Ctrl → ⌘ Keyboard Shortcuts" = "Ctrl → ⌘ Keyboard Shortcuts";
-
-/* No comment provided by engineer. */
 "Cut" = "Cut";
 
 /* No comment provided by engineer. */
@@ -155,6 +152,9 @@
 "Lock Screen" = "Lock Screen";
 
 /* No comment provided by engineer. */
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Maps Linux keyboard shortcuts to their Mac equivalents";
+
+/* No comment provided by engineer. */
 "Middle mouse button pastes from the clipboard" = "Middle mouse button pastes from the clipboard";
 
 /* No comment provided by engineer. */
@@ -165,6 +165,9 @@
 
 /* No comment provided by engineer. */
 "Moving the mouse to the top-left corner opens Mission Control" = "Moving the mouse to the top-left corner opens Mission Control";
+
+/* Scroll zoom picker option */
+"Natural" = "Natural";
 
 /* No comment provided by engineer. */
 "New" = "New";
@@ -177,6 +180,9 @@
 
 /* Category hint */
 "New, save, print, and quit" = "New, save, print, and quit";
+
+/* Scroll zoom picker option */
+"Off" = "Off";
 
 /* Button to open Accessibility preferences */
 "Open Accessibility" = "Open Accessibility";
@@ -227,9 +233,6 @@
 "Reload" = "Reload";
 
 /* No comment provided by engineer. */
-"Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts" = "Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts";
-
-/* No comment provided by engineer. */
 "Rename" = "Rename";
 
 /* No comment provided by engineer. */
@@ -247,8 +250,8 @@
 /* No comment provided by engineer. */
 "Save" = "Save";
 
-/* No comment provided by engineer. */
-"Scroll Zoom" = "Scroll Zoom";
+/* Picker label */
+"Scroll Zoom in Browsers" = "Scroll Zoom in Browsers";
 
 /* No comment provided by engineer. */
 "Search Selection" = "Search Selection";
@@ -261,6 +264,9 @@
 
 /* Menu item to open settings window */
 "Settings..." = "Settings...";
+
+/* No comment provided by engineer. */
+"Shortcut Remapping" = "Shortcut Remapping";
 
 /* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "Shows a black bar behind the menu bar when a window fills the screen";
@@ -285,6 +291,9 @@
 
 /* No comment provided by engineer. */
 "Toggle Comment" = "Toggle Comment";
+
+/* Scroll zoom picker option */
+"Traditional" = "Traditional";
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this" = "Turn off Show Menu Bar Background in System Settings to use this";
@@ -336,6 +345,9 @@
 
 /* OSD text when Caps Lock is enabled */
 "⇪ Caps Lock On" = "⇪ Caps Lock On";
+
+/* Picker description */
+"⌃Scroll zooms in and out in browser apps" = "⌃Scroll zooms in and out in browser apps";
 
 /* No comment provided by engineer. */
 "⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X copies files for moving, ⌃V moves them to the current folder";

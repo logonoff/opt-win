@@ -8,6 +8,11 @@ struct GnomeShortcutDef: Identifiable, Hashable {
     let category: String
 }
 
+// GnomeShortcutHandler is strictly for 1:1 keyboard shortcut remappings — one input
+// key combo maps to one output key combo. Features that involve state (FinderCutHandler),
+// different event types (ScrollZoomHandler), AX manipulation (ZoomButtonHandler), or
+// non-keyboard input (MiddleClickPasteHandler) belong in their own handler class with a
+// switch toggle in Settings.
 class GnomeShortcutHandler {
     // MARK: - Terminal detection
 
@@ -132,22 +137,6 @@ class GnomeShortcutHandler {
         return true
     }
 
-    // MARK: - Scroll handling
-
-    private static let keyPlus: Int64 = 0x18  // = key
-    private static let keyMinus: Int64 = 0x1B // - key
-
-    /// Handles Ctrl+scroll → Cmd+Plus/Minus in browsers. Returns true if consumed.
-    func handleScroll(event: CGEvent) -> Bool {
-        guard event.flags.contains(.maskControl),
-              !event.flags.contains(.maskCommand),
-              isEnabled("scrollZoom")
-        else { return false }
-        let delta = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
-        guard delta != 0 else { return false }
-        KeyboardUtils.postKey(delta < 0 ? Self.keyPlus : Self.keyMinus, flags: .maskCommand)
-        return true
-    }
 }
 
 // MARK: - Shortcut data
@@ -211,7 +200,6 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("View History", comment: ""), from: "⌃H", to: "⌘Y", category: browsers),
         GnomeShortcutDef(id: "viewSource", label: NSLocalizedString("View Source", comment: ""), from: "⌃U", to: "⌘U", category: browsers),
         GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), from: "⌃⇧P", to: "⌘⇧P", category: browsers),
-        GnomeShortcutDef(id: "scrollZoom", label: NSLocalizedString("Scroll Zoom", comment: ""), from: "⌃Scroll", to: "⌘±", category: browsers),
 
         GnomeShortcutDef(id: "termCopy", label: NSLocalizedString("Copy", comment: ""), from: "⌃⇧C", to: "⌘C", category: terminal),
         GnomeShortcutDef(id: "termPaste", label: NSLocalizedString("Paste", comment: ""), from: "⌃⇧V", to: "⌘V", category: terminal),
