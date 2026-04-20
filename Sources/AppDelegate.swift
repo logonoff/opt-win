@@ -110,7 +110,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             showAccessibilityAlertLoop()
         }
     }
-
     // MARK: - Event Tap
 
     private func setupEventTap() -> Bool {
@@ -206,7 +205,12 @@ extension AppDelegate {
             .font: font, .link: githubURL, .paragraphStyle: style
         ]))
         let licenseText = NSLocalizedString("License: WTFPL v2", comment: "About panel license text")
-        credits.append(NSAttributedString(string: licenseText, attributes: [
+        credits.append(NSAttributedString(string: licenseText + "\n", attributes: [
+            .font: font, .paragraphStyle: style
+        ]))
+        // swiftlint:disable:next line_length
+        let warrantyText = NSLocalizedString("This program is free software. It comes without any warranty, to the extent permitted by applicable law.", comment: "About panel warranty disclaimer")
+        credits.append(NSAttributedString(string: warrantyText, attributes: [
             .font: font, .paragraphStyle: style
         ]))
         NSApplication.shared.orderFrontStandardAboutPanel(options: [.version: "", .credits: credits])
@@ -241,7 +245,6 @@ extension AppDelegate {
 }
 
 // MARK: - Event Routing
-
 extension AppDelegate {
     private static var numberKeyCodes: [Int64: Int] { // Virtual key codes 1–9
         [0x12: 1, 0x13: 2, 0x14: 3, 0x15: 4, 0x17: 5, 0x16: 6, 0x1A: 7, 0x1C: 8, 0x19: 9]
@@ -310,7 +313,6 @@ extension AppDelegate {
 }
 
 // MARK: - Permission Alerts
-
 extension AppDelegate {
     private static let inputMonitoringURL =
         "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"

@@ -280,6 +280,9 @@
 /* Shortcut category */
 "Text Editing" = "Text Editing";
 
+/* About panel warranty disclaimer */
+"This program is free software. It comes without any warranty, to the extent permitted by applicable law." = "This program is free software. It comes without any warranty, to the extent permitted by applicable law.";
+
 /* No comment provided by engineer. */
 "Toggle Comment" = "Toggle Comment";
 

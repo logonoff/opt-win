@@ -59,4 +59,6 @@ Grant both in System Settings → Privacy & Security. Use the "Request Permissio
 
 ## License
 
-[WTFPL](http://www.wtfpl.net/)
+[WTFPL v2](http://www.wtfpl.net/)
+
+This program is free software. It comes without any warranty, to the extent permitted by applicable law.
