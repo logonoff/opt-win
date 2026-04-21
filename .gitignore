@@ -4,6 +4,9 @@
 
 .DS_Store
 
+# Swift for VS Code keeps creating this file; but we use the Makefile instead
+.vscode/launch.json
+
 ## User settings
 xcuserdata/
 
