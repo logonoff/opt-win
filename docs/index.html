@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="shale-v1-webkit-scrollbar shale-v1-light">
 
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OptWin</title>
     <meta name="description"
-      content="A tiny macOS menu bar app that repurposes the Option key with Mission Control, hot corners, dock shortcuts, and Linux-style keybindings." />
-    <link rel="stylesheet" href="https://unpkg.com/@shalecss/core/dist/shale.css" />
+      content="A tiny macOS menu bar app that repurposes the Option key with Mission Control, hot corners, Dock shortcuts, and Linux-style keyboard shortcuts.">
+    <link rel="stylesheet" href="https://unpkg.com/@shalecss/core@0.0.2/dist/shale.css">
     <style>
       #main,
       #footer {
@@ -15,11 +15,21 @@
       }
 
       #main section {
-        gap: var(--shale-v1-font-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--shale-v1-font-2);
       }
 
-      .shale-v1-h2 {
-        margin-bottom: var(--shale-v1-font-4);
+      a[target="_blank"]::after {
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3C!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M256 64C256 46.33 270.3 32 288 32H415.1C415.1 32 415.1 32 415.1 32C420.3 32 424.5 32.86 428.2 34.43C431.1 35.98 435.5 38.27 438.6 41.3C438.6 41.35 438.6 41.4 438.7 41.44C444.9 47.66 447.1 55.78 448 63.9C448 63.94 448 63.97 448 64V192C448 209.7 433.7 224 416 224C398.3 224 384 209.7 384 192V141.3L214.6 310.6C202.1 323.1 181.9 323.1 169.4 310.6C156.9 298.1 156.9 277.9 169.4 265.4L338.7 96H288C270.3 96 256 81.67 256 64V64zM0 128C0 92.65 28.65 64 64 64H160C177.7 64 192 78.33 192 96C192 113.7 177.7 128 160 128H64V416H352V320C352 302.3 366.3 288 384 288C401.7 288 416 302.3 416 320V416C416 451.3 387.3 480 352 480H64C28.65 480 0 451.3 0 416V128z'/%3E%3C/svg%3E") no-repeat center;
+        background-color: currentColor;
+        color: currentColor;
+        content: "(opens in new tab)";
+        display: inline;
+        vertical-align: bottom;
+        font-size: 0;
+        margin-left: 0.25rem;
+        padding: 0.4375rem;
       }
 
       @media (max-width: 768px) {
@@ -36,22 +46,25 @@
         <div>
           <h1 class="shale-v1-h1">OptWin</h1>
           <p class="shale-v1-h4">muscle memory polyfill for GNOME users on macOS</p>
-          <p class="shale-v1-p">why should you have to learn macOS? make macOS learn you. how do you like them <span
-              role="img" aria-label="Apple" class="apple-logo">&#xF8FF;</span>s?</p>
+          <p class="shale-v1-p">
+            why should you have to learn macOS? make macOS learn you. how do you like them
+            <span role="img" aria-label="Apple" class="apple-logo">&#xF8FF;</span>s?
+          </p>
           <p class="shale-v1-p">Requires <strong>macOS 26 (Tahoe)</strong> or later.</p>
         </div>
         <div>
           <a href="#install" aria-label="Installation instructions for OptWin"
             class="shale-v1-button shale-v1--active">Get Started</a>
           <a href="https://github.com/logonoff/opt-win" aria-label="GitHub repository for OptWin" target="_blank"
-            rel="noopener" class="shale-v1-button">View on GitHub...</a>
+            rel="noopener" class="shale-v1-button">View on GitHub</a>
         </div>
       </div>
 
       <div class="shale-v1-note-warn">
         <strong>Warning</strong>
-        <p class="shale-v1-note-text">This project is AI slop and the code has not been vetted by a human. Use at your
-          own risk!</p>
+        <p class="shale-v1-note-text">
+          This project is AI slop and the code has not been vetted by a human. Use at your own risk!
+        </p>
       </div>
 
       <section id="install">
@@ -61,12 +74,30 @@
 
         <div class="shale-v1-card">
           <p class="shale-v1-p">Install via Homebrew:</p>
-          <div style="position: relative;">
-            <pre class="shale-v1-code" id="install-brew">brew tap logonoff/opt-win https://github.com/logonoff/opt-win
+          <div style="position: relative">
+            <pre class="shale-v1-code" id="install-brew">
+brew tap logonoff/opt-win https://github.com/logonoff/opt-win
 brew install --cask optwin</pre>
             <button class="shale-v1-button" onclick="copyCode(this)"
-              style="position: absolute; top: 0.25em; right: 0.25em; font-size: 0.8em;">Copy</button>
+              style="position: absolute; top: 0.25em; right: 0.25em; font-size: 0.8em">
+              Copy
+            </button>
           </div>
+          <p>
+            Or download the latest release directly from
+            <a href="https://github.com/logonoff/opt-win/releases/latest" target="_blank" rel="noopener"
+              class="shale-v1-link">GitHub Releases</a>. The app is ad-hoc signed, so you may need to right-click and
+            choose Open on first launch to
+            bypass Gatekeeper.
+          </p>
+        </div>
+
+        <div class="shale-v1-note-info">
+          <strong>Permissions</strong>
+          <p class="shale-v1-note-text">
+            OptWin requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
+            in System Settings &gt; Privacy &amp; Security. The app will prompt you on first launch.
+          </p>
         </div>
       </section>
 
@@ -78,16 +109,17 @@ brew install --cask optwin</pre>
         <div class="shale-v1-flex-space-between">
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Single press <kbd class="shale-v1-code">&#x2325;</kbd></h3>
-            <p class="shale-v1-p">Open Mission Control instantly with a single tap of the Option key.</p>
+            <p class="shale-v1-p">Open Mission Control instantly with a single press of the Option key.</p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Double press <kbd class="shale-v1-code">&#x2325;</kbd></h3>
-            <p class="shale-v1-p">Launch Spotlight Apps with a quick double tap.</p>
+            <p class="shale-v1-p">Open Spotlight app search with a quick double press.</p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3"><kbd class="shale-v1-code">&#x2325;</kbd>+<kbd class="shale-v1-code">1-9</kbd>
+            <h3 class="shale-v1-h3">
+              <kbd class="shale-v1-code">&#x2325;</kbd>+<kbd class="shale-v1-code">1-9</kbd>
             </h3>
-            <p class="shale-v1-p">Launch the Nth app in your Dock. Finder position is configurable.</p>
+            <p class="shale-v1-p">Launch the Nth app in your Dock. The Finder position is configurable.</p>
           </div>
         </div>
       </section>
@@ -100,18 +132,23 @@ brew install --cask optwin</pre>
         <div class="shale-v1-flex-space-between">
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Hot Corner</h3>
-            <p class="shale-v1-p">Move your mouse to the top-left corner of any screen to trigger Mission Control,
-              complete with a GNOME-style ripple animation.</p>
+            <p class="shale-v1-p">
+              Move your mouse to the top-left corner of any screen to trigger Mission Control, complete
+              with a GNOME-style ripple animation.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3"><kbd class="shale-v1-code">Home</kbd>/<kbd class="shale-v1-code">End</kbd> Keys</h3>
-            <p class="shale-v1-p"><kbd class="shale-v1-code">Home</kbd> and <kbd class="shale-v1-code">End</kbd> keys
-              move the cursor to the start and end of the line, just like on
-              Linux.</p>
+            <h3 class="shale-v1-h3">
+              <kbd class="shale-v1-code">Home</kbd>/<kbd class="shale-v1-code">End</kbd> Keys
+            </h3>
+            <p class="shale-v1-p">
+              <kbd class="shale-v1-code">Home</kbd> and <kbd class="shale-v1-code">End</kbd> keys move the
+              cursor to the start and end of the line, just like on Linux.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Middle-click Paste</h3>
-            <p class="shale-v1-p">Middle mouse button pastes from the clipboard, X11-style. Off by default.</p>
+            <p class="shale-v1-p">Middle mouse button pastes from the clipboard, X11-style.</p>
           </div>
         </div>
       </section>
@@ -124,37 +161,47 @@ brew install --cask optwin</pre>
         <div class="shale-v1-flex-space-between">
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Shortcut Remapping</h3>
-            <p class="shale-v1-p">Maps Linux keyboard shortcuts to Mac equivalents. <kbd
-                class="shale-v1-code">Ctrl</kbd>+<kbd class="shale-v1-code">C</kbd>/<kbd
-                class="shale-v1-code">V</kbd>/<kbd class="shale-v1-code">X</kbd>, <kbd
-                class="shale-v1-code">Alt</kbd>+<kbd class="shale-v1-code">F4</kbd>, browser
-              shortcuts, terminal shortcuts, and more. Each shortcut is individually toggleable.</p>
+            <p class="shale-v1-p">
+              Maps Linux keyboard shortcuts to macOS equivalents.
+              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">C</kbd>/<kbd
+                class="shale-v1-code">V</kbd>/<kbd class="shale-v1-code">X</kbd>/<kbd class="shale-v1-code">Z</kbd>,
+              browser shortcuts,
+              terminal shortcuts, and more. Each shortcut can be individually turned on or off.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Caps Lock OSD</h3>
-            <p class="shale-v1-p">On-screen notification when <kbd class="shale-v1-code">Caps Lock</kbd> is toggled, so
-              you always know its state.</p>
+            <h3 class="shale-v1-h3">Caps Lock Indicator</h3>
+            <p class="shale-v1-p">
+              Onscreen notification when <kbd class="shale-v1-code">Caps Lock</kbd> is toggled, so you
+              always know its state.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Scroll Zoom</h3>
-            <p class="shale-v1-p"><kbd class="shale-v1-code">Ctrl</kbd>+scroll zooms in and out in browsers, with
-              natural or traditional scroll direction
-              support.</p>
+            <p class="shale-v1-p">
+              <kbd class="shale-v1-code">Control</kbd>+scroll zooms in and out in browsers, with natural
+              or traditional scroll direction support.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Cut &amp; Paste Files</h3>
-            <p class="shale-v1-p"><kbd class="shale-v1-code">Ctrl</kbd>+<kbd class="shale-v1-code">X</kbd> then <kbd
-                class="shale-v1-code">Ctrl</kbd>+<kbd class="shale-v1-code">V</kbd> in Finder moves files instead of
-              duplicating them.</p>
+            <p class="shale-v1-p">
+              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">X</kbd> then
+              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">V</kbd> in the Finder
+              moves files instead of duplicating them.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Green Button Fills</h3>
-            <p class="shale-v1-p">The green window button fills the window instead of entering full screen. Click again
-              to restore.</p>
+            <p class="shale-v1-p">
+              The green button fills the window instead of entering full screen. Click again to restore.
+            </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Dark Menu Bar</h3>
-            <p class="shale-v1-p">Shows a black bar behind the transparent menu bar when a window fills the screen.</p>
+            <p class="shale-v1-p">
+              Shows a black bar behind the transparent menu bar when a window fills the screen.
+            </p>
           </div>
         </div>
       </section>
@@ -163,36 +210,49 @@ brew install --cask optwin</pre>
     <footer class="shale-v1-footer" id="footer">
       <div class="shale-v1-container">
         <div>
-          <p class="shale-v1-p">
-            OptWin is licensed under the <a href="http://www.wtfpl.net/" class="shale-v1-link">WTFPL v2</a>. It comes
+          <p>
+            OptWin is licensed under the
+            <a href="http://www.wtfpl.net/" target="_blank" rel="noopener" class="shale-v1-link">WTFPL v2</a>. It comes
             without any warranty, to the extent permitted by applicable law.
           </p>
-          <div class="shale-v1-h6">(c) <a href="https://logonoff.co" class="shale-v1-link">logonoff</a></div>
+          <div class="shale-v1-h6">
+            (c)
+            <a href="https://logonoff.co" target="_blank" rel="noopener" class="shale-v1-link">logonoff</a>
+          </div>
         </div>
       </div>
     </footer>
     <script>
-      const root = document.documentElement;
-      const applyTheme = (dark) => {
-        root.classList.toggle('shale-v1-dark', dark);
-        root.classList.toggle('shale-v1-light', !dark);
+      const cn = (...entries) => {
+        const cl = document.documentElement.classList;
+        entries.forEach(([cls, on]) => cl.toggle(cls, on));
       };
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      applyTheme(mq.matches);
-      mq.addEventListener('change', (e) => applyTheme(e.matches));
+      const dark = window.matchMedia("(prefers-color-scheme: dark)");
+      const hiContrast = window.matchMedia("(prefers-contrast: more)");
+      const forced = window.matchMedia("(forced-colors: active)");
+      const update = () => {
+        const contrast = hiContrast.matches || forced.matches;
+        cn(
+          ["shale-v1-contrast", contrast],
+          ["shale-v1-dark", !contrast && dark.matches],
+          ["shale-v1-light", !contrast && !dark.matches]
+        );
+      };
+      update();
+      [dark, hiContrast, forced].forEach((mq) => mq.addEventListener("change", update));
 
       // Apple logo (PUA U+F8FF) only renders on Apple platforms
       if (!/Mac|iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        Array.from(document.querySelectorAll('.apple-logo')).forEach(el => el.textContent = '\uD83C\uDF4E');
+        Array.from(document.querySelectorAll(".apple-logo")).forEach((el) => (el.textContent = "\uD83C\uDF4E"));
       }
 
       const copyCode = (btn) => {
-        const text = btn.parentElement.querySelector('pre').textContent;
+        const text = btn.parentElement.querySelector("pre").textContent;
         navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = 'Copied!';
-          setTimeout(() => btn.textContent = 'Copy', 2000);
+          btn.textContent = "Copied!";
+          setTimeout(() => (btn.textContent = "Copy"), 2000);
         });
-      }
+      };
     </script>
   </body>
 
