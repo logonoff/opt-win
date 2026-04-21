@@ -3,22 +3,45 @@
 > [!WARNING]
 > This is AI slop and I have not vetted the code. Use at your own risk!
 
-A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (Tahoe)** or later.
+A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS 26 (Tahoe)** or later.
 
-- **Single press `⌥`** → Mission Control
-- **Double press `⌥`** → Spotlight Apps
-- **Hot corner** → Move mouse to top-left corner of any screen → Mission Control (with GNOME-style ripple animation)
-- **`⌥`+`1-9`** → Launch the Nth app in the Dock (Finder position configurable)
-- **Caps Lock OSD** → On-screen notification when Caps Lock is toggled
-- **Home/End** → Moves cursor to line start/end in text fields (Linux behavior)
-- **Shortcut Remapping** → Maps Linux keyboard shortcuts to their Mac equivalents (off by default). Includes Ctrl+C/V/X → ⌘C/V/X, Alt+F4 → close, F2 → rename in Finder, browser shortcuts (reload, DevTools), terminal Ctrl+Shift+C/V for copy/paste, code editor shortcuts (find and replace, toggle comment), and more. Browser, Finder, terminal, and code editor shortcuts are app-gated. Each shortcut can be individually toggled.
-- **Scroll Zoom** → Ctrl+scroll zooms in and out in browsers, with natural or traditional scroll direction (off by default)
-- **Cut & Paste Files** → Ctrl+X then Ctrl+V in Finder moves files instead of duplicating (off by default)
-- **Middle-click Paste** → Middle mouse button pastes from clipboard, X11-style (off by default)
-- **Green Button Fills Window** → Green window button fills the window instead of entering full screen, click again to restore (off by default)
-- **Dark Menu Bar** → Shows a black bar behind the transparent menu bar when a window fills the screen (off by default, requires "Show menu bar background" to be disabled in System Settings → Menu Bar as this replaces it)
+## Features
 
-All features can be individually toggled on/off from the menu bar. Detection happens on key-up, so existing keyboard shortcuts using Option are unaffected.
+### Option Key Shortcuts
+
+| Shortcut | Action |
+|---|---|
+| Single press `⌥` | Open Mission Control |
+| Double press `⌥` | Open Spotlight Apps |
+| `⌥`+`A` | Open Spotlight Apps |
+| `⌥`+`1-9` | Launch the Nth app in the Dock |
+
+### Desktop
+
+| Feature | Description |
+|---|---|
+| Hot Corner | Move mouse to top-left corner → Mission Control (with GNOME ripple animation) |
+| Window Tiling | `⌥`+Arrow keys to tile, maximize, or restore windows (off by default) |
+| Green Button Fills | Green button fills window instead of full screen (off by default) |
+| Dark Menu Bar | Opaque bar behind transparent menu bar when a window fills the screen (off by default) |
+
+### Keyboard
+
+| Feature | Description |
+|---|---|
+| Caps Lock OSD | On-screen notification when Caps Lock is toggled |
+| Home/End | Line start/end in text fields. Ctrl+Home/End for document start/end |
+| Shortcut Remapping | Maps Linux shortcuts to Mac equivalents — Ctrl+C/V/X, Alt+F4, F2 rename, browser/terminal/code editor shortcuts, and more. Each can be individually toggled. (off by default) |
+
+### Input
+
+| Feature | Description |
+|---|---|
+| Scroll Zoom | Ctrl+scroll zooms in browsers, with natural or traditional direction (off by default) |
+| Cut & Paste Files | Ctrl+X then Ctrl+V in Finder moves files instead of duplicating (off by default) |
+| Middle-click Paste | Paste on text fields (X11-style), new window from Dock, native behavior elsewhere (off by default) |
+
+All features can be individually toggled on/off. Option key detection happens on key-up, so existing shortcuts are unaffected.
 
 ## Install
 
@@ -35,7 +58,7 @@ Or build from source:
 
 ### Gatekeeper
 
-The app is not notarized, so macOS will warn about it on first launch. To bypass this, right-click the app and select "Open". You only need to do this once. Alternatively, you can run the following command in Terminal:
+The app is not notarized. Right-click and select "Open" on first launch, or run:
 
 ```
 xattr -d com.apple.quarantine /Applications/OptWin.app
@@ -51,12 +74,12 @@ Requires Xcode command line tools (`xcode-select --install`).
 
 ## Permissions
 
-OptWin requires two permissions:
+OptWin requires two permissions in System Settings → Privacy & Security:
 
-1. **Accessibility** — needed to post synthetic key events (Spotlight trigger, Mission Control)
-2. **Input Monitoring** — needed to detect key presses and mouse movement via the global event tap
+1. **Accessibility** — synthetic key events and window management
+2. **Input Monitoring** — global keyboard and mouse event detection
 
-Grant both in System Settings → Privacy & Security. Use the "Request Permissions..." menu item to open the relevant panes.
+Use the "Request Permissions..." menu item to open the relevant panes.
 
 ## License
 
