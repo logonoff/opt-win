@@ -220,6 +220,9 @@
 /* No comment provided by engineer. */
 "Option plus a number key launches the corresponding Dock app" = "Option plus a number key launches the corresponding Dock app";
 
+/* No comment provided by engineer. */
+"Option+A opens Spotlight Apps" = "Option+A opens Spotlight Apps";
+
 /* Alert body when all permissions are granted */
 "OptWin already has all required permissions." = "OptWin already has all required permissions.";
 
@@ -402,6 +405,9 @@
 
 /* Toggle label */
 "⌥+N → Dock App" = "⌥+N → Dock App";
+
+/* No comment provided by engineer. */
+"⌥A → Apps" = "⌥A → Apps";
 
 /* Toggle label */
 "⌥⌥ → Apps" = "⌥⌥ → Apps";

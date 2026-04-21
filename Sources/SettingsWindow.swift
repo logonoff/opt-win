@@ -46,6 +46,7 @@ struct SettingsView: View {
     @AppStorage("optSingleEnabled") var optSingle = true
     @AppStorage("optDoubleEnabled") var optDouble = true
     @AppStorage("hotCornersEnabled") var hotCorners = true
+    @AppStorage("appGridEnabled") var appGrid = true
     @AppStorage("dockShortcutsEnabled") var dockShortcuts = true
     @AppStorage("dockFinderPosition") var finderPosition = 1
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
@@ -115,6 +116,12 @@ struct SettingsView: View {
                     Text("Double press Option to open Spotlight Apps")
                 }
                 .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
+
+                Toggle(isOn: $appGrid) {
+                    Text("⌥A → Apps")
+                    Text("Option+A opens Spotlight Apps")
+                }
+                .onChange(of: appGrid) { _, val in notify("appGridEnabled", val) }
 
                 Toggle(isOn: $dockShortcuts) {
                     Text("⌥+N → Dock App")

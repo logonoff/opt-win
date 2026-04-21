@@ -27,6 +27,8 @@ class HomeEndHandler {
     private static let keyEnd: Int64 = 0x77
     private static let keyLeft: Int64 = 0x7B
     private static let keyRight: Int64 = 0x7C
+    private static let keyUp: Int64 = 0x7E
+    private static let keyDown: Int64 = 0x7D
 
     /// Attempts to handle a keyDown event. Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
@@ -40,9 +42,17 @@ class HomeEndHandler {
         guard KeyboardUtils.isFocusedOnTextField() else { return false }
 
         let isHome = keyCode == HomeEndHandler.keyHome
-        let arrowKey = isHome ? HomeEndHandler.keyLeft : HomeEndHandler.keyRight
-        // Preserve Shift for selection (Shift+Home/End → Shift+Cmd+Left/Right)
+        let hasCtrl = event.flags.contains(.maskControl)
+        // Ctrl+Home/End → Cmd+Up/Down (document start/end)
+        // Home/End → Cmd+Left/Right (line start/end)
+        let arrowKey: Int64
+        if hasCtrl {
+            arrowKey = isHome ? HomeEndHandler.keyUp : HomeEndHandler.keyDown
+        } else {
+            arrowKey = isHome ? HomeEndHandler.keyLeft : HomeEndHandler.keyRight
+        }
         var newFlags = event.flags
+        newFlags.remove(.maskControl)
         newFlags.insert(.maskCommand)
         KeyboardUtils.postKey(arrowKey, flags: newFlags)
         return true

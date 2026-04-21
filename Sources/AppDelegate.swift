@@ -55,6 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "lockKeyOSDEnabled": true,
         "homeEndRemapEnabled": true,
         "menuBarBgEnabled": false,
+        "appGridEnabled": true,
         "gnomeShortcutsEnabled": false,
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
@@ -351,6 +352,15 @@ extension AppDelegate {
         if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) { return true }
         if isEnabled("finderCutEnabled") && finderCutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true
+        }
+        if isEnabled("appGridEnabled") && event.flags.contains(.maskAlternate)
+            && !event.flags.contains(.maskCommand) && !event.flags.contains(.maskControl) {
+            let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+            if keyCode == 0x00 { // Option+A → Spotlight Apps
+                optionKeyHandler.markOtherInput()
+                triggerSpotlight()
+                return true
+            }
         }
         if isEnabled("gnomeShortcutsEnabled") && gnomeShortcutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true
