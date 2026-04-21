@@ -86,7 +86,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - App Lifecycle
 
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        NSApplication.shared.abortModal()
+        return .terminateNow
+    }
+
+    @objc func handleQuitAppleEvent(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
+        exit(0)
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Ensure the app can quit even when a modal dialog is blocking the run loop
+        let termSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
+        termSource.setEventHandler { exit(0) }
+        termSource.resume()
+        signal(SIGTERM, SIG_IGN)
+
+        NSAppleEventManager.shared().setEventHandler(
+            self, andSelector: #selector(handleQuitAppleEvent(_:withReply:)),
+            forEventClass: AEEventClass(kCoreEventClass),
+            andEventID: AEEventID(kAEQuitApplication)
+        )
         UserDefaults.standard.register(defaults: AppDelegate.defaultPreferences)
 
         let systemMenuBarBg = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
