@@ -80,12 +80,16 @@ Requires Xcode command line tools (`xcode-select --install`).
 
 ## Permissions
 
-SuperOpt requires two permissions:
+SuperOpt requires two permissions in System Settings → Privacy & Security:
 
 1. **Accessibility** — synthetic key events and window management
 2. **Input Monitoring** — global keyboard and mouse event detection
 
 Use the "Request Permissions..." menu item to open the relevant panes.
+
+## Privacy
+
+SuperOpt runs entirely offline. It does not collect telemetry, phone home, make network requests, or transmit any data. All processing happens locally on your Mac. The source code is available for review in this repository.
 
 ## License
 

@@ -4,6 +4,8 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 
 **Keep this file up to date.** When adding features, changing architecture, or learning new project conventions, update the relevant sections below so future sessions have full context.
 
+**Privacy: This app must never make network requests, collect telemetry, phone home, or transmit any data.** All processing is local. Do not add dependencies, analytics, crash reporting, or any code that communicates over the network.
+
 ## Features
 
 - **Single press `⌥`** → Opens Mission Control
