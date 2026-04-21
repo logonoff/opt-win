@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="OptWin"
+APP_NAME="SuperOpt"
 APP_BUNDLE="build/$APP_NAME.app"
 INSTALL_DIR="/Applications"
 

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>OptWin</string>
+    <string>SuperOpt</string>
     <key>CFBundleIdentifier</key>
-    <string>co.logonoff.optwin</string>
+    <string>co.logonoff.superopt</string>
     <key>CFBundleVersion</key>
     <string>1.0</string>
     <key>CFBundleShortVersionString</key>
@@ -13,9 +13,9 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleExecutable</key>
-    <string>OptWin</string>
+    <string>SuperOpt</string>
     <key>CFBundleDisplayName</key>
-    <string>OptWin</string>
+    <string>SuperOpt</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleInfoDictionaryVersion</key>
@@ -29,8 +29,8 @@
     <key>LSUIElement</key>
     <true/>
     <key>NSAccessibilityUsageDescription</key>
-    <string>OptWin uses Accessibility to detect focused text fields for Home/End key remapping.</string>
+    <string>SuperOpt uses Accessibility to detect focused text fields for Home/End key remapping.</string>
     <key>NSListenEventUsageDescription</key>
-    <string>OptWin monitors keyboard and mouse events for Option key shortcuts and hot corners.</string>
+    <string>SuperOpt monitors keyboard and mouse events for Option key shortcuts and hot corners.</string>
 </dict>
 </plist>

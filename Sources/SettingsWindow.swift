@@ -318,7 +318,7 @@ class SettingsWindowController: NSObject {
             backing: .buffered,
             defer: false
         )
-        window.title = NSLocalizedString("OptWin Settings", comment: "Settings window title")
+        window.title = NSLocalizedString("SuperOpt Settings", comment: "Settings window title")
         window.center()
         window.isReleasedWhenClosed = false
         window.minSize = NSSize(width: 420, height: 400)

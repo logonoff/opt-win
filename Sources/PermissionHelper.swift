@@ -43,7 +43,7 @@ class PermissionHelper {
 
     private func formatPermissionsMessage(_ missing: [String]) -> String {
         // swiftlint:disable:next line_length
-        let format = NSLocalizedString("OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated OptWin, you may need to remove and re-add it in each permission list.", comment: "Alert body for missing permissions — %@ is the list of missing permissions")
+        let format = NSLocalizedString("SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list.", comment: "Alert body for missing permissions — %@ is the list of missing permissions")
         return String(format: format, missing.joined(separator: ", "))
     }
 
@@ -64,7 +64,8 @@ class PermissionHelper {
             alert.messageText = NSLocalizedString(
                 "Permissions Granted", comment: "Alert title when all permissions are granted")
             alert.informativeText = NSLocalizedString(
-                "OptWin already has all required permissions.", comment: "Alert body when all permissions are granted")
+                "SuperOpt already has all required permissions.",
+                comment: "Alert body when all permissions are granted")
             alert.alertStyle = .informational; alert.runModal(); return
         }
 

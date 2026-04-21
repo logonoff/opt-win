@@ -218,7 +218,7 @@ extension AppDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         if let button = statusItem.button {
             button.title = "⌥"
-            button.setAccessibilityLabel("OptWin")
+            button.setAccessibilityLabel("SuperOpt")
         }
 
         let menu = NSMenu()
@@ -235,11 +235,11 @@ extension AppDelegate {
         launchItem.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(launchItem)
 
-        let aboutTitle = NSLocalizedString("About OptWin", comment: "Menu item to show about panel")
+        let aboutTitle = NSLocalizedString("About SuperOpt", comment: "Menu item to show about panel")
         menu.addItem(NSMenuItem(title: aboutTitle, action: #selector(showAbout), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
 
-        let quitTitle = NSLocalizedString("Quit OptWin", comment: "Menu item to quit the app")
+        let quitTitle = NSLocalizedString("Quit SuperOpt", comment: "Menu item to quit the app")
         menu.addItem(NSMenuItem(title: quitTitle, action: #selector(quit), keyEquivalent: "q"))
         statusItem.menu = menu
     }
@@ -259,7 +259,7 @@ extension AppDelegate {
         let font = NSFont.systemFont(ofSize: 11)
         let credits = NSMutableAttributedString()
         let githubText = NSLocalizedString("GitHub", comment: "About panel link text")
-        let githubURL = URL(string: "https://github.com/logonoff/opt-win")!
+        let githubURL = URL(string: "https://github.com/logonoff/superopt")!
         credits.append(NSAttributedString(string: githubText, attributes: [
             .font: font, .link: githubURL, .paragraphStyle: style
         ]))

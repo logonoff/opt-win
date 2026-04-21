@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="OptWin"
+APP_NAME="SuperOpt"
 BUILD_DIR="build"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 
@@ -59,6 +59,11 @@ if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
         --platform macosx
     /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string Icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
     /usr/libexec/PlistBuddy -c "Set :CFBundleIconName Icon" "$APP_BUNDLE/Contents/Info.plist"
+    # Extract 256x256 favicon from the compiled icns for the website
+    ICNS="$APP_BUNDLE/Contents/Resources/Icon.icns"
+    if [ -f "$ICNS" ]; then
+        sips -s format png -z 256 256 "$ICNS" --out docs/favicon.png &>/dev/null
+    fi
 else
     echo "Skipping icon (actool not available or Icon.icon not found)"
 fi

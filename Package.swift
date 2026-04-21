@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "OptWin",
+    name: "SuperOpt",
     platforms: [.macOS("26.0")],
-    targets: [.executableTarget(name: "OptWin", path: "Sources")]
+    targets: [.executableTarget(name: "SuperOpt", path: "Sources")]
 )

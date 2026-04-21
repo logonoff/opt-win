@@ -2,7 +2,7 @@
 "%@" = "%@";
 
 /* Menu item to show about panel */
-"About OptWin" = "About OptWin";
+"About SuperOpt" = "About SuperOpt";
 
 /* Permission name */
 "Accessibility" = "Accessibility";
@@ -220,15 +220,6 @@
 /* No comment provided by engineer. */
 "Option+A opens Spotlight Apps" = "Option+A opens Spotlight Apps";
 
-/* Alert body when all permissions are granted */
-"OptWin already has all required permissions." = "OptWin already has all required permissions.";
-
-/* Alert body for missing permissions — %@ is the list of missing permissions */
-"OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated OptWin, you may need to remove and re-add it in each permission list." = "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated OptWin, you may need to remove and re-add it in each permission list.";
-
-/* Settings window title */
-"OptWin Settings" = "OptWin Settings";
-
 /* No comment provided by engineer. */
 "Outdent" = "Outdent";
 
@@ -254,7 +245,7 @@
 "Quit" = "Quit";
 
 /* Menu item to quit the app */
-"Quit OptWin" = "Quit OptWin";
+"Quit SuperOpt" = "Quit SuperOpt";
 
 /* No comment provided by engineer. */
 "Redo" = "Redo";
@@ -321,6 +312,15 @@
 
 /* No comment provided by engineer. */
 "Single press Option to open Mission Control" = "Single press Option to open Mission Control";
+
+/* Alert body when all permissions are granted */
+"SuperOpt already has all required permissions." = "SuperOpt already has all required permissions.";
+
+/* Alert body for missing permissions — %@ is the list of missing permissions */
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list.";
+
+/* Settings window title */
+"SuperOpt Settings" = "SuperOpt Settings";
 
 /* Category hint */
 "Tab and window management" = "Tab and window management";

@@ -1,4 +1,4 @@
-# OptWin
+# SuperOpt
 
 A macOS menu bar app that repurposes the Option key and adds GNOME-style hot corners.
 
@@ -54,7 +54,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ## Build & Install
 
 ```bash
-./build.sh        # compiles Sources/*.swift → build/OptWin.app
+./build.sh        # compiles Sources/*.swift → build/SuperOpt.app
 ./install.sh      # moves to /Applications (builds first if needed)
 ./install.sh --run # install and launch
 ```
@@ -99,17 +99,17 @@ All user-visible strings are localizable. Non-SwiftUI strings (menu items, alert
 
 ## CI
 
-GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a GitHub release with `OptWin.zip` attached. Release notes are generated from `git log` since the previous tag. After the release, the workflow auto-updates the Homebrew cask (`Casks/optwin.rb`) with the new version and SHA, and commits to `main`.
+GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA, and commits to `main`.
 
 A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
 
 ## Homebrew
 
-A cask is hosted in this repo at `Casks/optwin.rb`. Install via:
+A cask is hosted in this repo at `Casks/superopt.rb`. Install via:
 
 ```bash
-brew tap logonoff/opt-win https://github.com/logonoff/opt-win
-brew install --cask optwin
+brew tap logonoff/superopt https://github.com/logonoff/superopt
+brew install --cask superopt
 ```
 
 ## Apple Documentation

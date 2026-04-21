@@ -1,4 +1,10 @@
-# OptWin
+<h1>
+    <img align="top" src="./docs/favicon.png" alt width="36" />
+    SuperOpt
+</h1>
+
+[![GitHub Release](https://img.shields.io/github/v/release/logonoff/superopt?color=%23FBB040)](https://github.com/logonoff/superopt/releases/latest)
+[![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)](http://www.wtfpl.net/)
 
 > [!WARNING]
 > This is AI slop and I have not vetted the code. Use at your own risk!
@@ -46,8 +52,8 @@ All features can be individually toggled on/off. Option key detection happens on
 ## Install
 
 ```
-brew tap logonoff/opt-win https://github.com/logonoff/opt-win
-brew install --cask optwin
+brew tap logonoff/superopt https://github.com/logonoff/superopt
+brew install --cask superopt
 ```
 
 Or build from source:
@@ -61,7 +67,7 @@ Or build from source:
 The app is not notarized. Right-click and select "Open" on first launch, or run:
 
 ```
-xattr -d com.apple.quarantine /Applications/OptWin.app
+xattr -d com.apple.quarantine /Applications/SuperOpt.app
 ```
 
 ## Build
@@ -74,7 +80,7 @@ Requires Xcode command line tools (`xcode-select --install`).
 
 ## Permissions
 
-OptWin requires two permissions in System Settings → Privacy & Security:
+SuperOpt requires two permissions:
 
 1. **Accessibility** — synthetic key events and window management
 2. **Input Monitoring** — global keyboard and mouse event detection
