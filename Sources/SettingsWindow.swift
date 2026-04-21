@@ -144,7 +144,7 @@ struct SettingsView: View {
 
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
-                    Text("Middle mouse button pastes from the clipboard")
+                    Text("Paste with middle-click, or open a new window from the Dock")
                 }
                 .onChange(of: middleClickPaste) { _, val in notify("middleClickPasteEnabled", val) }
 

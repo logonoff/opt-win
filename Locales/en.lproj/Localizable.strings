@@ -170,9 +170,6 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Maps Linux keyboard shortcuts to their Mac equivalents";
 
 /* No comment provided by engineer. */
-"Middle mouse button pastes from the clipboard" = "Middle mouse button pastes from the clipboard";
-
-/* No comment provided by engineer. */
 "Middle-Click Paste" = "Middle-Click Paste";
 
 /* No comment provided by engineer. */
@@ -237,6 +234,9 @@
 
 /* No comment provided by engineer. */
 "Paste" = "Paste";
+
+/* No comment provided by engineer. */
+"Paste with middle-click, or open a new window from the Dock" = "Paste with middle-click, or open a new window from the Dock";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "Permissions Granted";
