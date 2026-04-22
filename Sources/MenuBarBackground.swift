@@ -90,12 +90,14 @@ class MenuBarBackground: NSObject {
             kCGNullWindowID
         ) as? [[String: Any]] ?? []
 
-        // Hide when Mission Control is active — Dock creates overlay windows at high layers
-        let missionControlActive = windowList.contains { info in
+        // Hide when Mission Control is active — Dock creates multiple overlay windows.
+        // The Dock bar itself is always one window at layer > 0, so require at least 2.
+        let dockOverlayCount = windowList.filter { info in
             guard let owner = info[kCGWindowOwnerName as String] as? String,
                   let layer = info[kCGWindowLayer as String] as? Int else { return false }
             return owner == "Dock" && layer > 0
-        }
+        }.count
+        let missionControlActive = dockOverlayCount > 1
         if missionControlActive {
             for win in windows { win.alphaValue = 0 }
             return
@@ -117,9 +119,10 @@ class MenuBarBackground: NSObject {
     }
 
     private func isScreenFilled(_ screen: NSScreen, windowList: [[String: Any]]) -> Bool {
-        let menuBarHeight = screen.frame.maxY - screen.visibleFrame.maxY
         let primaryHeight = KeyboardUtils.primaryScreenHeight()
         guard primaryHeight > 0 else { return false }
+
+        let usableArea = screen.visibleFrame
 
         for info in windowList {
             guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0,
@@ -135,13 +138,6 @@ class MenuBarBackground: NSObject {
 
             let nsY = primaryHeight - cgY - cgH
             let windowFrame = NSRect(x: cgX, y: nsY, width: cgW, height: cgH)
-
-            let usableArea = NSRect(
-                x: screen.frame.origin.x,
-                y: screen.frame.origin.y,
-                width: screen.frame.width,
-                height: screen.frame.height - menuBarHeight
-            )
 
             if windowFrame.minX <= usableArea.minX + 2
                 && windowFrame.minY <= usableArea.minY + 2
