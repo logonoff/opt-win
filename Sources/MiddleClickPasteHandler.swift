@@ -32,10 +32,9 @@ class MiddleClickPasteHandler {
     ]
 
     private func isTextFieldAt(_ pos: CGPoint) -> Bool {
-        let systemWide = AXUIElementCreateSystemWide()
         var axElement: AXUIElement?
         guard AXUIElementCopyElementAtPosition(
-            systemWide, Float(pos.x), Float(pos.y), &axElement
+            KeyboardUtils.systemWide, Float(pos.x), Float(pos.y), &axElement
         ) == .success, let element = axElement else { return false }
 
         var current = element
@@ -56,10 +55,9 @@ class MiddleClickPasteHandler {
     // MARK: - Dock detection
 
     private func dockAppInfo(at pos: CGPoint) -> (onDock: Bool, appURL: URL?) {
-        let systemWide = AXUIElementCreateSystemWide()
         var axElement: AXUIElement?
         guard AXUIElementCopyElementAtPosition(
-            systemWide, Float(pos.x), Float(pos.y), &axElement
+            KeyboardUtils.systemWide, Float(pos.x), Float(pos.y), &axElement
         ) == .success, let element = axElement else {
             return (false, nil)
         }

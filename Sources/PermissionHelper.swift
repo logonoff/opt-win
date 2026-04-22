@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class PermissionHelper {
     var hasEventTap: () -> Bool = { false }
     var trySetupEventTap: () -> Bool = { false }
@@ -117,10 +118,12 @@ class PermissionHelper {
 
         // Lightweight timer to check the flag during modal sessions
         let modalCheck = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self, self.permissionChanged else { return }
-            self.permissionChanged = false
-            if AXIsProcessTrusted() && self.trySetupEventTap() {
-                NSApplication.shared.abortModal()
+            MainActor.assumeIsolated {
+                guard let self = self, self.permissionChanged else { return }
+                self.permissionChanged = false
+                if AXIsProcessTrusted() && self.trySetupEventTap() {
+                    NSApplication.shared.abortModal()
+                }
             }
         }
         RunLoop.main.add(modalCheck, forMode: .modalPanel)

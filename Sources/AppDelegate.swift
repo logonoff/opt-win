@@ -8,29 +8,34 @@ func eventTapCallback(
     userInfo: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
     guard let userInfo = userInfo else { return Unmanaged.passUnretained(event) }
-    let delegate = Unmanaged<AppDelegate>.fromOpaque(userInfo).takeUnretainedValue()
 
-    if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-        if AXIsProcessTrusted(), let tap = delegate.eventTap {
-            CGEvent.tapEnable(tap: tap, enable: true)
-        } else {
-            delegate.tearDownEventTap()
+    return MainActor.assumeIsolated {
+        let delegate = Unmanaged<AppDelegate>.fromOpaque(userInfo).takeUnretainedValue()
+
+        if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+            if AXIsProcessTrusted(), let tap = delegate.eventTap {
+                CGEvent.tapEnable(tap: tap, enable: true)
+            } else {
+                delegate.tearDownEventTap()
+            }
+            return Unmanaged.passUnretained(event)
+        }
+
+        if delegate.handleEvent(type: type, event: event) {
+            if KeyboardUtils.isSynthetic(event) {
+                return Unmanaged.passUnretained(event) // rewritten in-place
+            }
+            return nil // consume the event
         }
         return Unmanaged.passUnretained(event)
     }
-
-    if delegate.handleEvent(type: type, event: event) {
-        if KeyboardUtils.isSynthetic(event) {
-            return Unmanaged.passUnretained(event) // rewritten in-place
-        }
-        return nil // consume the event
-    }
-    return Unmanaged.passUnretained(event)
 }
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     var eventTap: CFMachPort?
     private var statusItem: NSStatusItem!
+    private var safetyTimer: Timer?
 
     private let optionKeyHandler = OptionKeyHandler()
     private let hotCorner = HotCorner()
@@ -151,12 +156,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         // Safety net: periodically verify permissions in case the notification doesn't fire
-        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
-            self?.accessibilityChanged()
+        safetyTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.accessibilityChanged() }
         }
     }
-    // MARK: - Event Tap
 
+    func applicationWillTerminate(_ notification: Notification) {
+        safetyTimer?.invalidate()
+        tearDownEventTap()
+        DistributedNotificationCenter.default().removeObserver(self)
+    }
+    // MARK: - Event Tap
     private func setupEventTap() -> Bool {
         let mask: CGEventMask =
             (1 << CGEventType.flagsChanged.rawValue)
@@ -189,9 +199,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func accessibilityChanged() {
         if AXIsProcessTrusted() {
-            if eventTap == nil { _ = setupEventTap() }
+            if eventTap == nil && setupEventTap() {
+                safetyTimer?.invalidate()
+                safetyTimer = nil
+            }
         } else {
             tearDownEventTap()
+            if safetyTimer == nil {
+                safetyTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+                    MainActor.assumeIsolated { self?.accessibilityChanged() }
+                }
+            }
         }
     }
 
@@ -208,6 +226,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let task = Process()
         task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
         task.arguments = ["-a", "Mission Control"]
+        task.terminationHandler = { _ in } // prevent Process from leaking
         try? task.run()
     }
     fileprivate func triggerSpotlight() {
@@ -277,6 +296,7 @@ extension AppDelegate {
                 try SMAppService.mainApp.register(); sender.state = .on
             }
         } catch {
+            NSLog("SuperOpt: failed to update login item: %@", error.localizedDescription)
             let alert = NSAlert()
             alert.messageText = NSLocalizedString(
                 "Unable to Update Login Item", comment: "Alert title when login item registration fails")

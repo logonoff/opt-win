@@ -47,7 +47,8 @@ class HotCorner {
     }
 
     private func screenAtTopLeftCorner(_ point: CGPoint) -> NSScreen? {
-        guard let primaryHeight = NSScreen.screens.first?.frame.height else { return nil }
+        let primaryHeight = KeyboardUtils.primaryScreenHeight()
+        guard primaryHeight > 0 else { return nil }
 
         for screen in NSScreen.screens {
             let frame = screen.frame

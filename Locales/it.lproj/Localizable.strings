@@ -319,9 +319,6 @@
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt necessita dei seguenti permessi:\n\n%@\n\nConcedi l'accesso in Impostazioni di Sistema → Privacy e Sicurezza, quindi fai clic su Continua.\n\nSe hai aggiornato SuperOpt di recente, potrebbe essere necessario rimuoverlo e aggiungerlo nuovamente in ogni elenco di permessi.";
 
-/* Settings window title */
-"SuperOpt Settings" = "Impostazioni di SuperOpt";
-
 /* Category hint */
 "Tab and window management" = "Gestione pannelli e finestre";
 

@@ -3,6 +3,7 @@ import QuartzCore
 
 /// Ripple animation ported from GNOME Shell js/ui/ripples.js and _corner-ripple.scss.
 /// Three concentric quarter-circle ripples expand from the top-left corner of a screen.
+@MainActor
 class RippleAnimation {
     private var activeWindows: [NSWindow] = []
 

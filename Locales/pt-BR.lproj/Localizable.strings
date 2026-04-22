@@ -319,9 +319,6 @@
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "O SuperOpt precisa das seguintes permissões:\n\n%@\n\nConceda acesso em Ajustes do Sistema → Privacidade e Segurança, depois clique em Continuar.\n\nSe você atualizou o SuperOpt recentemente, talvez seja necessário removê-lo e adicioná-lo novamente em cada lista de permissões.";
 
-/* Settings window title */
-"SuperOpt Settings" = "Ajustes do SuperOpt";
-
 /* Category hint */
 "Tab and window management" = "Gerenciamento de abas e janelas";
 

@@ -1,6 +1,7 @@
 import Cocoa
 import QuartzCore
 
+@MainActor
 class LockKeyOSD {
     private var windows: [NSWindow] = []
     private var dismissWorkItem: DispatchWorkItem?

@@ -6,6 +6,7 @@ private class UnconstrainedWindow: NSWindow {
     }
 }
 
+@MainActor
 class MenuBarBackground: NSObject {
     private var windows: [NSWindow] = []
     private var timer: Timer?
@@ -16,7 +17,7 @@ class MenuBarBackground: NSObject {
         if timer == nil {
             if windows.isEmpty { createWindows() }
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-                self?.update()
+                MainActor.assumeIsolated { self?.update() }
             }
             NotificationCenter.default.addObserver(
                 self, selector: #selector(screenChanged),
@@ -35,6 +36,10 @@ class MenuBarBackground: NSObject {
 
     func stop() {
         active = false
+        timer?.invalidate()
+        timer = nil
+        NotificationCenter.default.removeObserver(
+            self, name: NSApplication.didChangeScreenParametersNotification, object: nil)
         for win in windows {
             win.alphaValue = 0
         }
@@ -113,7 +118,8 @@ class MenuBarBackground: NSObject {
 
     private func isScreenFilled(_ screen: NSScreen, windowList: [[String: Any]]) -> Bool {
         let menuBarHeight = screen.frame.maxY - screen.visibleFrame.maxY
-        guard let primaryHeight = NSScreen.screens.first?.frame.height else { return false }
+        let primaryHeight = KeyboardUtils.primaryScreenHeight()
+        guard primaryHeight > 0 else { return false }
 
         for info in windowList {
             guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0,

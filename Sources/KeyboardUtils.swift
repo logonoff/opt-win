@@ -103,11 +103,16 @@ enum KeyboardUtils {
         return (ref as! AXValue) // swiftlint:disable:this force_cast
     }
 
+    static let systemWide = AXUIElementCreateSystemWide()
+
+    static func primaryScreenHeight() -> CGFloat {
+        NSScreen.screens.first?.frame.height ?? 0
+    }
+
     static func isFocusedOnTextField() -> Bool {
-        let systemWide = AXUIElementCreateSystemWide()
         var focusedElement: AnyObject?
         let result = AXUIElementCopyAttributeValue(
-            systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
+            Self.systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
         guard result == .success,
               let element = focusedElement,
               let axElement = toAXElement(element)

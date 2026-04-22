@@ -292,7 +292,8 @@ private struct CategoryLabel: View {
     }
 }
 
-class SettingsWindowController: NSObject {
+@MainActor
+class SettingsWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow?
     private var onSettingChanged: ((String, Any) -> Void)?
 
@@ -318,9 +319,10 @@ class SettingsWindowController: NSObject {
             backing: .buffered,
             defer: false
         )
-        window.title = NSLocalizedString("SuperOpt Settings", comment: "Settings window title")
+        window.title = NSLocalizedString("Settings", comment: "Settings window title")
         window.center()
         window.isReleasedWhenClosed = false
+        window.delegate = self
         window.minSize = NSSize(width: 420, height: 400)
         window.maxSize = NSSize(width: 420, height: CGFloat.greatestFiniteMagnitude)
         window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
@@ -329,5 +331,9 @@ class SettingsWindowController: NSObject {
         window.makeKeyAndOrderFront(nil)
         NSApplication.shared.activate(ignoringOtherApps: true)
         self.window = window
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window = nil
     }
 }

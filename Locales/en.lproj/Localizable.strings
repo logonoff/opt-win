@@ -295,7 +295,7 @@
 /* No comment provided by engineer. */
 "Select Word Right" = "Select Word Right";
 
-/* No comment provided by engineer. */
+/* Settings window title */
 "Settings" = "Settings";
 
 /* Menu item to open settings window */
@@ -318,9 +318,6 @@
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list.";
-
-/* Settings window title */
-"SuperOpt Settings" = "SuperOpt Settings";
 
 /* Category hint */
 "Tab and window management" = "Tab and window management";

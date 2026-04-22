@@ -319,8 +319,6 @@
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt 需要以下权限：\n\n%@\n\n请在系统设置 → 隐私和安全性中授予访问权限，然后点击继续。\n\n如果您最近更新了 SuperOpt，可能需要在每个权限列表中移除并重新添加。";
 
-/* Settings window title */
-"SuperOpt Settings" = "SuperOpt 设置";
 
 /* Category hint */
 "Tab and window management" = "标签页和窗口管理";

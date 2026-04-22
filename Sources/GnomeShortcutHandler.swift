@@ -135,12 +135,10 @@ class GnomeShortcutHandler {
         return true
     }
 
-    private var activeEvent: CGEvent!
-
-    private func remap(_ keyCode: Int64, flags: CGEventFlags,
+    private func remap(_ event: CGEvent, _ keyCode: Int64, flags: CGEventFlags,
                        remove: CGEventFlags = [], add: CGEventFlags = []) -> Bool {
         var newFlags = flags; newFlags.remove(remove); newFlags.insert(add)
-        KeyboardUtils.rewriteEvent(activeEvent, keyCode: keyCode, flags: newFlags)
+        KeyboardUtils.rewriteEvent(event, keyCode: keyCode, flags: newFlags)
         return true
     }
 
@@ -252,8 +250,6 @@ extension GnomeShortcutHandler {
 
 extension GnomeShortcutHandler {
     func handleKeyDown(event: CGEvent) -> Bool {
-        activeEvent = event
-        defer { activeEvent = nil }
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let flags = event.flags
         let hasControl = flags.contains(.maskControl)
@@ -264,16 +260,16 @@ extension GnomeShortcutHandler {
         if hasCommand { return false }
 
         if hasControl && !hasOption {
-            return handleCtrlKey(keyCode: keyCode, flags: flags, hasShift: hasShift,
+            return handleCtrlKey(event: event, keyCode: keyCode, flags: flags, hasShift: hasShift,
                                  isTerminal: KeyboardUtils.isTerminalApp())
         }
 
         if hasOption && !hasControl {
-            return handleAltKey(keyCode: keyCode, flags: flags, hasShift: hasShift)
+            return handleAltKey(event: event, keyCode: keyCode, flags: flags, hasShift: hasShift)
         }
 
         if !hasControl && !hasOption && !hasCommand && !hasShift {
-            return handleNoModifierKey(keyCode: keyCode, flags: flags)
+            return handleNoModifierKey(event: event, keyCode: keyCode, flags: flags)
         }
 
         return false
@@ -281,30 +277,30 @@ extension GnomeShortcutHandler {
 
     // MARK: - Ctrl+key remaps
 
-    private func handleCtrlKey(keyCode: Int64, flags: CGEventFlags,
+    private func handleCtrlKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags,
                                hasShift: Bool, isTerminal: Bool) -> Bool {
         // Terminal Ctrl+Shift shortcuts (must be checked before passthrough)
         if isTerminal && hasShift,
            let id = Self.terminalShiftMap[keyCode], isEnabled(id) {
-            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskCommand)
+            return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskCommand)
         }
         if isTerminal && Self.terminalPassthroughKeys.contains(keyCode) { return false }
         if keyCode == Self.keyTab { return false } // Ctrl+Tab already works on Mac
 
         // Special remaps (non-standard modifier swaps)
-        if let result = handleCtrlSpecialKey(keyCode: keyCode, flags: flags, hasShift: hasShift) {
+        if let result = handleCtrlSpecialKey(event: event, keyCode: keyCode, flags: flags, hasShift: hasShift) {
             return result
         }
 
         // Ctrl+Shift+key shortcuts (check before base Ctrl+key)
         if hasShift, let ids = Self.ctrlShiftMap[keyCode] {
             guard ids.contains(where: { isEnabled($0) }) else { return false }
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
         }
 
         // General Ctrl → Cmd swap
         if let ids = Self.ctrlToCmdMap[keyCode], ids.contains(where: { isEnabled($0) }) {
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
         }
         return false
     }
@@ -312,52 +308,52 @@ extension GnomeShortcutHandler {
     // Each branch has different modifier transforms — can't be reduced to a lookup table.
     // swiftlint:disable:next cyclomatic_complexity
     private func handleCtrlSpecialKey(
-        keyCode: Int64, flags: CGEventFlags, hasShift: Bool
+        event: CGEvent, keyCode: Int64, flags: CGEventFlags, hasShift: Bool
     ) -> Bool? {
         if keyCode == Self.keyY && !hasShift && isEnabled("redo") { // Ctrl+Y → ⌘⇧Z
-            return remap(Self.keyZ, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
+            return remap(event, Self.keyZ, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
         }
         if keyCode == Self.keyDelete && !hasShift && isEnabled("deleteWord") { // Ctrl+⌫ → ⌥⌫
-            return remap(Self.keyDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, Self.keyDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if keyCode == Self.keyForwardDelete && !hasShift && isEnabled("forwardDeleteWord") { // Ctrl+⌦ → ⌥⌦
-            return remap(Self.keyForwardDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, Self.keyForwardDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyLeft && isEnabled("selectWordLeft") { // Ctrl+Shift+← → ⌥⇧←
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyRight && isEnabled("selectWordRight") { // Ctrl+Shift+→ → ⌥⇧→
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if keyCode == Self.keyLeft && isEnabled("wordLeft") { // Ctrl+← → ⌥←
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if keyCode == Self.keyRight && isEnabled("wordRight") { // Ctrl+→ → ⌥→
-            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyDown && isEnabled("moveLineDown") { // Ctrl+Shift+↓ → ⌥↓
-            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyUp && isEnabled("moveLineUp") { // Ctrl+Shift+↑ → ⌥↑
-            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
+            return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyDown && isEnabled("selectDown") { // Ctrl+Shift+↓ → Shift+↓
-            return remap(keyCode, flags: flags, remove: .maskControl)
+            return remap(event, keyCode, flags: flags, remove: .maskControl)
         }
         if hasShift && keyCode == Self.keyUp && isEnabled("selectUp") { // Ctrl+Shift+↑ → Shift+↑
-            return remap(keyCode, flags: flags, remove: .maskControl)
+            return remap(event, keyCode, flags: flags, remove: .maskControl)
         }
         if hasShift && keyCode == Self.keyI && isEnabled("devTools") { // Ctrl+Shift+I → ⌘⌥I
-            return remap(Self.keyI, flags: flags, remove: [.maskControl, .maskShift],
+            return remap(event, Self.keyI, flags: flags, remove: [.maskControl, .maskShift],
                          add: [.maskCommand, .maskAlternate])
         }
         if keyCode == Self.keyH && !hasShift { // Ctrl+H → ⌘⌥F or ⌘Y
             if isEnabled("findReplace") {
-                return remap(Self.keyF, flags: flags, remove: .maskControl,
+                return remap(event, Self.keyF, flags: flags, remove: .maskControl,
                              add: [.maskCommand, .maskAlternate])
             }
             if isEnabled("viewHistory") {
-                return remap(Self.keyY, flags: flags, remove: .maskControl, add: .maskCommand)
+                return remap(event, Self.keyY, flags: flags, remove: .maskControl, add: .maskCommand)
             }
         }
         return nil
@@ -365,35 +361,35 @@ extension GnomeShortcutHandler {
 
     // MARK: - Alt (Option) shortcuts
 
-    private func handleAltKey(keyCode: Int64, flags: CGEventFlags, hasShift: Bool) -> Bool {
+    private func handleAltKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags, hasShift: Bool) -> Bool {
         if keyCode == Self.keyF4 && isEnabled("closeWindow") { // Alt+F4 → ⌘W
-            return remap(Self.keyW, flags: flags, remove: .maskAlternate, add: .maskCommand)
+            return remap(event, Self.keyW, flags: flags, remove: .maskAlternate, add: .maskCommand)
         }
         if keyCode == Self.keyReturn && !hasShift && isEnabled("getInfo") { // Alt+Enter → ⌘I
-            return remap(Self.keyI, flags: flags, remove: .maskAlternate, add: .maskCommand)
+            return remap(event, Self.keyI, flags: flags, remove: .maskAlternate, add: .maskCommand)
         }
         if keyCode == Self.keyL && !hasShift && isEnabled("lockScreen") { // Alt+L → ⌃⌘Q
-            return remap(Self.keyQ, flags: flags, remove: .maskAlternate, add: [.maskCommand, .maskControl])
+            return remap(event, Self.keyQ, flags: flags, remove: .maskAlternate, add: [.maskCommand, .maskControl])
         }
         return false
     }
 
     // MARK: - No-modifier shortcuts
 
-    private func handleNoModifierKey(keyCode: Int64, flags: CGEventFlags) -> Bool {
+    private func handleNoModifierKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags) -> Bool {
         if keyCode == Self.keyForwardDelete // ⌦ → ⌘⌫ (Move to Trash)
             && isEnabled("finderDelete") && !KeyboardUtils.isFocusedOnTextField() {
-            return remap(Self.keyDelete, flags: flags, add: .maskCommand)
+            return remap(event, Self.keyDelete, flags: flags, add: .maskCommand)
         }
         if keyCode == Self.keyF2 // F2 → Return (Rename)
             && isEnabled("rename") && !KeyboardUtils.isFocusedOnTextField() {
-            return remap(Self.keyReturn, flags: flags, add: [])
+            return remap(event, Self.keyReturn, flags: flags, add: [])
         }
         if keyCode == Self.keyF11 && isEnabled("fullscreen") { // F11 → ⌃⌘F
-            return remap(Self.keyF, flags: flags, add: [.maskCommand, .maskControl])
+            return remap(event, Self.keyF, flags: flags, add: [.maskCommand, .maskControl])
         }
         if keyCode == Self.keyF12 && isEnabled("devToolsF12") { // F12 → ⌘⌥I
-            return remap(Self.keyI, flags: flags, add: [.maskCommand, .maskAlternate])
+            return remap(event, Self.keyI, flags: flags, add: [.maskCommand, .maskAlternate])
         }
         return false
     }

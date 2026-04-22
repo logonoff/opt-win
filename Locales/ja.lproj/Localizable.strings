@@ -319,8 +319,6 @@
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOptには以下の権限が必要です:\n\n%@\n\nシステム設定 → プライバシーとセキュリティでアクセスを許可し、「続ける」をクリックしてください。\n\nSuperOptを最近アップデートした場合は、各権限リストから削除して再度追加する必要がある場合があります。";
 
-/* Settings window title */
-"SuperOpt Settings" = "SuperOpt設定";
 
 /* Category hint */
 "Tab and window management" = "タブとウインドウの管理";

@@ -45,9 +45,8 @@ class ZoomButtonHandler {
     // MARK: - AX helpers
 
     private func fullScreenButton(at pos: CGPoint) -> AXUIElement? {
-        let systemWide = AXUIElementCreateSystemWide()
         var axElement: AXUIElement?
-        let result = AXUIElementCopyElementAtPosition(systemWide, Float(pos.x), Float(pos.y), &axElement)
+        let result = AXUIElementCopyElementAtPosition(KeyboardUtils.systemWide, Float(pos.x), Float(pos.y), &axElement)
         guard result == .success, let axElement else { return nil }
 
         var subroleValue: AnyObject?
@@ -117,14 +116,13 @@ class ZoomButtonHandler {
     // MARK: - Coordinate conversion
 
     private func screenForPoint(_ point: CGPoint) -> NSScreen {
-        let primaryHeight = NSScreen.screens.first?.frame.height ?? 0
-        let nsPoint = NSPoint(x: point.x, y: primaryHeight - point.y)
+        let nsPoint = NSPoint(x: point.x, y: KeyboardUtils.primaryScreenHeight() - point.y)
         return NSScreen.screens.first(where: { $0.frame.contains(nsPoint) })
             ?? NSScreen.main ?? NSScreen.screens[0]
     }
 
     private func visibleFrameInAXCoords(screen: NSScreen) -> CGRect {
-        let primaryHeight = NSScreen.screens.first?.frame.height ?? 0
+        let primaryHeight = KeyboardUtils.primaryScreenHeight()
         let visible = screen.visibleFrame
         return CGRect(x: visible.origin.x, y: primaryHeight - visible.origin.y - visible.height,
                       width: visible.width, height: visible.height)
