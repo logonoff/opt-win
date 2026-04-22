@@ -11,6 +11,8 @@
 
 A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS 26 (Tahoe)** or later.
 
+<video src="https://github.com/user-attachments/assets/8d14ad15-434d-4318-a1ab-e16173e018d5" controls muted style="max-width: 100%; border-radius: 8px;"></video>
+
 ## Install
 
 ```

@@ -21,6 +21,33 @@
         gap: var(--shale-v1-font-2);
       }
 
+      #demo-video {
+        padding: 0;
+      }
+
+      .screenshot-strip {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: var(--shale-v1-font-2);
+        padding-bottom: 8px;
+      }
+
+      .screenshot-strip img {
+        scroll-snap-align: start;
+        border-radius: 8px;
+        height: 340px;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+
+      #screenshot-dialog img {
+        max-width: 85vw;
+        max-height: 85vh;
+        border-radius: 8px;
+      }
+
       @media (max-width: 768px) {
         .feature-card {
           flex: 1 1 100%;
@@ -56,9 +83,47 @@
         </p>
       </div>
 
+      <section id="demo">
+        <div class="shale-v1-flex-center">
+          <h2 class="shale-v1-h2">Quick Demo</h2>
+        </div>
+        <video class="shale-v1-card" id="demo-video" controls playsinline muted width="1600" height="900"
+          poster="https://github.com/user-attachments/assets/2def1e72-71df-41c8-9246-66c57c6ab716"
+          style="max-width: 100%; height: auto; border-radius: 8px">
+          <source src="https://github.com/user-attachments/assets/8d14ad15-434d-4318-a1ab-e16173e018d5"
+            type="video/mp4">
+        </video>
+
+        <div class="shale-v1-flex-center">
+          <h3 class="shale-v1-h3">Screenshots</h3>
+        </div>
+        <div class="screenshot-strip">
+          <img src="https://github.com/user-attachments/assets/91087ca2-b566-4bd9-b297-7fe949dafd42"
+            alt="SuperOpt settings — Desktop section" loading="lazy">
+          <img src="https://github.com/user-attachments/assets/09d0cb8d-77b3-474b-8e69-f727f92484a7"
+            alt="SuperOpt settings — Keyboard section" loading="lazy">
+          <img src="https://github.com/user-attachments/assets/a1331050-691f-4587-b347-39e208bbc4d2"
+            alt="SuperOpt settings — Input section" loading="lazy">
+          <img src="https://github.com/user-attachments/assets/58caf5a6-4c71-4b1d-906c-96393b51a7bc"
+            alt="SuperOpt settings — Shortcut Remapping section" loading="lazy">
+          <img src="https://github.com/user-attachments/assets/49b2e1d2-1e2d-4ba5-a5fb-53d7a67b7f89"
+            alt="SuperOpt settings — Shortcut Remapping expanded" loading="lazy">
+          <img src="https://github.com/user-attachments/assets/fa713e55-bc9e-4062-9765-0399c9e14e60"
+            alt="SuperOpt about panel" loading="lazy">
+        </div>
+      </section>
+
       <section id="install">
         <div class="shale-v1-flex-center">
           <h2 class="shale-v1-h2">Install</h2>
+        </div>
+
+        <div class="shale-v1-note-info">
+          <strong>Permissions</strong>
+          <p class="shale-v1-note-text">
+            SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
+            in System Settings &gt; Privacy &amp; Security. The app will prompt you on first launch.
+          </p>
         </div>
 
         <div class="shale-v1-card">
@@ -78,14 +143,6 @@ brew install --cask superopt</pre>
               class="shale-v1-link">GitHub Releases</a>. The app is ad-hoc signed, so you may need to right-click and
             choose Open on first launch to
             bypass Gatekeeper.
-          </p>
-        </div>
-
-        <div class="shale-v1-note-info">
-          <strong>Permissions</strong>
-          <p class="shale-v1-note-text">
-            SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
-            in System Settings &gt; Privacy &amp; Security. The app will prompt you on first launch.
           </p>
         </div>
       </section>
@@ -220,6 +277,21 @@ brew install --cask superopt</pre>
       </section>
     </main>
 
+    <dialog id="screenshot-dialog" class="shale-v1-dialog">
+      <header class="shale-v1-header shale-v1-header-compact">
+        <div class="shale-v1-header-title"><p class="shale-v1-header-text" id="screenshot-dialog-title"></p></div>
+        <menu class="shale-v1-caption-menu">
+          <li>
+            <button title="Close" type="button" commandfor="screenshot-dialog" command="close"
+              class="shale-v1-caption-button">×</button>
+          </li>
+        </menu>
+      </header>
+      <div class="shale-v1-container" style="text-align: center">
+        <img id="screenshot-dialog-img" src="" alt="">
+      </div>
+    </dialog>
+
     <footer class="shale-v1-footer" id="footer">
       <div class="shale-v1-container">
         <div>
@@ -266,6 +338,20 @@ brew install --cask superopt</pre>
           setTimeout(() => (btn.textContent = "Copy"), 2000);
         });
       };
+
+      const screenshotDialog = document.getElementById("screenshot-dialog");
+
+      document.querySelector(".screenshot-strip").addEventListener("click", (e) => {
+        if (e.target.tagName !== "IMG") return;
+        document.getElementById("screenshot-dialog-img").src = e.target.src;
+        document.getElementById("screenshot-dialog-img").alt = e.target.alt;
+        document.getElementById("screenshot-dialog-title").textContent = e.target.alt;
+        screenshotDialog.showModal();
+      });
+
+      screenshotDialog.addEventListener("click", (e) => {
+        if (e.target === screenshotDialog) screenshotDialog.close();
+      });
     </script>
   </body>
 
