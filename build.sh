@@ -86,7 +86,7 @@ cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
 
 # Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)
 if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
-    actool Icon.icon \
+    ACTOOL_OUT=$(actool Icon.icon \
         --compile "$APP_BUNDLE/Contents/Resources" \
         --output-format human-readable-text \
         --notices --warnings --errors \
@@ -97,7 +97,7 @@ if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
         --development-region en \
         --target-device mac \
         --minimum-deployment-target 26.0 \
-        --platform macosx
+        --platform macosx 2>&1) || { echo "$ACTOOL_OUT"; exit 1; }
     /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string Icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
     /usr/libexec/PlistBuddy -c "Set :CFBundleIconName Icon" "$APP_BUNDLE/Contents/Info.plist"
     # Extract 256x256 favicon from the compiled icns for the website
@@ -113,6 +113,3 @@ fi
 codesign --force --sign - "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"
-echo ""
-echo "To run:     open $APP_BUNDLE"
-echo "To install: ./install.sh"
