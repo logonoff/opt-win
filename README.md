@@ -66,6 +66,7 @@ xattr -d com.apple.quarantine /Applications/SuperOpt.app
 
 | Feature | Description |
 |---|---|
+| Menu Key | The Menu key on PC keyboards opens a shortcut menu (off by default) |
 | Scroll Zoom | Ctrl+scroll zooms in browsers, with natural or traditional direction (off by default) |
 | Cut & Paste Files | Ctrl+X then Ctrl+V in Finder moves files instead of duplicating (off by default) |
 | Middle-click Paste | Paste on text fields (X11-style), new window from Dock, native behavior elsewhere (off by default) |
