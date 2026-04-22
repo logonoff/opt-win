@@ -1,0 +1,422 @@
+/* No comment provided by engineer. */
+"%@" = "%@";
+
+/* Menu item to show about panel */
+"About SuperOpt" = "SuperOpt에 관하여";
+
+/* Permission name */
+"Accessibility" = "손쉬운 사용";
+
+/* Category hint */
+"Active only in browsers" = "브라우저에서만 활성화";
+
+/* Category hint */
+"Active only in code editors" = "코드 편집기에서만 활성화";
+
+/* Category hint */
+"Active only in Finder" = "Finder에서만 활성화";
+
+/* Category hint */
+"Active only in terminal apps" = "터미널 앱에서만 활성화";
+
+/* No comment provided by engineer. */
+"Address Bar" = "주소 막대";
+
+/* No comment provided by engineer. */
+"Bold" = "볼드체";
+
+/* No comment provided by engineer. */
+"Bookmark Page" = "북마크 추가";
+
+/* Shortcut category */
+"Browsers" = "브라우저";
+
+/* Cancel button */
+"Cancel" = "취소";
+
+/* No comment provided by engineer. */
+"Caps Lock OSD" = "Caps Lock 알림";
+
+/* No comment provided by engineer. */
+"Clear Browsing Data" = "인터넷 사용 기록 삭제";
+
+/* No comment provided by engineer. */
+"Clicking the green button fills the window instead of entering full screen" = "녹색 버튼을 클릭하면 전체 화면 대신 윈도우를 화면에 맞춤";
+
+/* No comment provided by engineer. */
+"Close Tab" = "탭 닫기";
+
+/* No comment provided by engineer. */
+"Close Window" = "윈도우 닫기";
+
+/* Shortcut category */
+"Code Editor" = "코드 편집기";
+
+/* No comment provided by engineer. */
+"Command Palette" = "명령 팔레트";
+
+/* Button to retry after granting permissions */
+"Continue" = "계속";
+
+/* No comment provided by engineer. */
+"Copy" = "복사";
+
+/* Category hint */
+"Copy, paste, undo, find, and other essentials" = "복사, 붙여넣기, 실행 취소, 찾기 등 기본 동작";
+
+/* No comment provided by engineer. */
+"Cut" = "오려두기";
+
+/* No comment provided by engineer. */
+"Cut & Paste Files in Finder" = "Finder에서 파일 오려두기 및 붙여넣기";
+
+/* No comment provided by engineer. */
+"Dark Menu Bar" = "어두운 메뉴 막대";
+
+/* No comment provided by engineer. */
+"Delete Line" = "줄 삭제";
+
+/* No comment provided by engineer. */
+"Delete Word" = "단어 삭제";
+
+/* Section header */
+"Desktop" = "데스크탑";
+
+/* No comment provided by engineer. */
+"Developer Tools" = "개발자 도구";
+
+/* No comment provided by engineer. */
+"Dock position assigned to Finder — other apps shift to fill" = "Finder에 할당된 Dock 위치 — 다른 앱은 밀려남";
+
+/* No comment provided by engineer. */
+"Double press Option to open Spotlight Apps" = "Option을 두 번 눌러 Spotlight 앱 열기";
+
+/* No comment provided by engineer. */
+"Downloads" = "다운로드";
+
+/* No comment provided by engineer. */
+"Duplicate" = "복제";
+
+/* Shortcut category */
+"File" = "파일";
+
+/* No comment provided by engineer. */
+"Find" = "찾기";
+
+/* No comment provided by engineer. */
+"Find and Replace" = "찾기 및 대치";
+
+/* No comment provided by engineer. */
+"Find Next" = "다음 찾기";
+
+/* No comment provided by engineer. */
+"Find Previous" = "이전 찾기";
+
+/* Shortcut category */
+"Finder" = "Finder";
+
+/* No comment provided by engineer. */
+"Finder Position" = "Finder 위치";
+
+/* No comment provided by engineer. */
+"Forward Delete Word" = "다음 단어 삭제";
+
+/* No comment provided by engineer. */
+"Full Screen" = "전체 화면";
+
+/* Shortcut category */
+"General" = "일반";
+
+/* About panel link text */
+"GitHub" = "GitHub";
+
+/* No comment provided by engineer. */
+"Green Button Fills Window" = "녹색 버튼으로 윈도우 채우기";
+
+/* No comment provided by engineer. */
+"Home and End keys move the cursor to the start or end of the line" = "Home 및 End 키로 커서를 줄의 처음 또는 끝으로 이동";
+
+/* No comment provided by engineer. */
+"Hot Corner" = "핫 코너";
+
+/* No comment provided by engineer. */
+"Indent" = "들여쓰기";
+
+/* Section header */
+"Input" = "입력";
+
+/* Permission name */
+"Input Monitoring" = "입력 모니터링";
+
+/* No comment provided by engineer. */
+"Insert Line Above" = "위에 줄 삽입";
+
+/* No comment provided by engineer. */
+"Insert Link" = "링크 삽입";
+
+/* No comment provided by engineer. */
+"Italic" = "이탤릭체";
+
+/* Section header */
+"Keyboard" = "키보드";
+
+/* Menu item to toggle start at login */
+"Launch at Login" = "로그인 시 실행";
+
+/* No comment provided by engineer. */
+"Lock Screen" = "화면 잠금";
+
+/* No comment provided by engineer. */
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Linux 키보드 단축키를 해당 Mac 단축키로 매핑";
+
+/* No comment provided by engineer. */
+"Middle-Click Paste" = "가운데 클릭으로 붙여넣기";
+
+/* No comment provided by engineer. */
+"Move Line Down" = "줄 아래로 이동";
+
+/* No comment provided by engineer. */
+"Move Line Up" = "줄 위로 이동";
+
+/* No comment provided by engineer. */
+"Move to Trash" = "휴지통으로 이동";
+
+/* No comment provided by engineer. */
+"Moving the mouse to the top-left corner opens Mission Control" = "마우스를 왼쪽 상단 모서리로 이동하면 Mission Control이 열림";
+
+/* Scroll zoom picker option */
+"Natural" = "자연스러운";
+
+/* No comment provided by engineer. */
+"New" = "새로 만들기";
+
+/* No comment provided by engineer. */
+"New Private Window" = "새로운 개인정보 보호 윈도우";
+
+/* No comment provided by engineer. */
+"New Tab" = "새로운 탭";
+
+/* No comment provided by engineer. */
+"New Window" = "새로운 윈도우";
+
+/* Category hint */
+"New, save, print, and quit" = "새로 만들기, 저장, 프린트, 종료";
+
+/* Scroll zoom picker option */
+"Off" = "끔";
+
+/* Button to open Accessibility preferences */
+"Open Accessibility" = "손쉬운 사용 열기";
+
+/* Button to open Input Monitoring preferences */
+"Open Input Monitoring" = "입력 모니터링 열기";
+
+/* Button to open login items settings */
+"Open Login Items" = "로그인 항목 열기";
+
+/* No comment provided by engineer. */
+"Option plus a number key launches the corresponding Dock app" = "Option과 숫자 키로 해당 Dock 앱 실행";
+
+/* No comment provided by engineer. */
+"Option+A opens Spotlight Apps" = "Option+A로 Spotlight 앱 열기";
+
+/* No comment provided by engineer. */
+"Outdent" = "내어쓰기";
+
+/* No comment provided by engineer. */
+"Paste" = "붙여넣기";
+
+/* No comment provided by engineer. */
+"Paste with middle-click, or open a new window from the Dock" = "가운데 클릭으로 붙여넣기 또는 Dock에서 새 윈도우 열기";
+
+/* Alert title when all permissions are granted */
+"Permissions Granted" = "권한이 부여됨";
+
+/* Alert title for missing permissions */
+"Permissions Required" = "권한 필요";
+
+/* No comment provided by engineer. */
+"Print" = "프린트";
+
+/* No comment provided by engineer. */
+"Properties" = "속성";
+
+/* Button to quit the app */
+"Quit" = "종료";
+
+/* Menu item to quit the app */
+"Quit SuperOpt" = "SuperOpt 종료";
+
+/* No comment provided by engineer. */
+"Redo" = "다시 실행";
+
+/* No comment provided by engineer. */
+"Reload" = "새로고침";
+
+/* No comment provided by engineer. */
+"Remap Shortcuts" = "단축키 재매핑";
+
+/* No comment provided by engineer. */
+"Rename" = "이름 변경";
+
+/* No comment provided by engineer. */
+"Reopen Tab" = "탭 다시 열기";
+
+/* Menu item to check and request permissions */
+"Request Permissions\u{2026}" = "권한 요청\u{2026}";
+
+/* No comment provided by engineer. */
+"Reset Zoom" = "확대/축소 재설정";
+
+/* No comment provided by engineer. */
+"Run/Confirm" = "실행/확인";
+
+/* No comment provided by engineer. */
+"Save" = "저장";
+
+/* Picker label */
+"Scroll Zoom in Browsers" = "브라우저에서 스크롤 확대/축소";
+
+/* No comment provided by engineer. */
+"Search Selection" = "선택 항목 검색";
+
+/* No comment provided by engineer. */
+"Select All" = "전체 선택";
+
+/* No comment provided by engineer. */
+"Select Down" = "아래로 선택";
+
+/* No comment provided by engineer. */
+"Select Up" = "위로 선택";
+
+/* No comment provided by engineer. */
+"Select Word Left" = "왼쪽 단어 선택";
+
+/* No comment provided by engineer. */
+"Select Word Right" = "오른쪽 단어 선택";
+
+/* No comment provided by engineer. */
+"Settings" = "설정";
+
+/* Menu item to open settings window */
+"Settings\u{2026}" = "설정\u{2026}";
+
+/* Section header */
+"Shortcut Remapping" = "단축키 재매핑";
+
+/* No comment provided by engineer. */
+"Shows a black bar behind the menu bar when a window fills the screen" = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은 막대를 표시";
+
+/* No comment provided by engineer. */
+"Shows an on-screen notification when Caps Lock is toggled" = "Caps Lock 전환 시 화면에 알림 표시";
+
+/* No comment provided by engineer. */
+"Single press Option to open Mission Control" = "Option을 한 번 눌러 Mission Control 열기";
+
+/* Alert body when all permissions are granted */
+"SuperOpt already has all required permissions." = "SuperOpt에 이미 필요한 모든 권한이 있습니다.";
+
+/* Alert body for missing permissions — %@ is the list of missing permissions */
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt에 다음 권한이 필요합니다:\n\n%@\n\n시스템 설정 → 개인정보 보호 및 보안에서 접근 권한을 부여한 다음 계속을 클릭하십시오.\n\nSuperOpt를 최근에 업데이트한 경우, 각 권한 목록에서 제거한 후 다시 추가해야 할 수 있습니다.";
+
+/* Settings window title */
+"SuperOpt Settings" = "SuperOpt 설정";
+
+/* Category hint */
+"Tab and window management" = "탭 및 윈도우 관리";
+
+/* Shortcut category */
+"Tabs & Windows" = "탭 및 윈도우";
+
+/* Shortcut category */
+"Terminal" = "터미널";
+
+/* Shortcut category */
+"Text Editing" = "텍스트 편집";
+
+/* No comment provided by engineer. */
+"Toggle Bookmarks Bar" = "북마크 막대 표시/숨기기";
+
+/* No comment provided by engineer. */
+"Toggle Comment" = "주석 전환";
+
+/* Scroll zoom picker option */
+"Traditional" = "전통적";
+
+/* No comment provided by engineer. */
+"Turn off Show Menu Bar Background in System Settings to use this" = "이 기능을 사용하려면 시스템 설정에서 메뉴 막대 배경 표시를 끄세요";
+
+/* Alert title when login item registration fails */
+"Unable to Update Login Item" = "로그인 항목을 업데이트할 수 없음";
+
+/* No comment provided by engineer. */
+"Underline" = "밑줄";
+
+/* No comment provided by engineer. */
+"Undo" = "실행 취소";
+
+/* Shortcut category */
+"View" = "보기";
+
+/* No comment provided by engineer. */
+"View History" = "방문 기록 보기";
+
+/* No comment provided by engineer. */
+"View Source" = "소스 보기";
+
+/* Toggle label */
+"Window Tiling" = "윈도우 타일링";
+
+/* No comment provided by engineer. */
+"Word Left" = "왼쪽 단어";
+
+/* No comment provided by engineer. */
+"Word Right" = "오른쪽 단어";
+
+/* Category hint */
+"Word-level navigation, deletion, and formatting" = "단어 단위 탐색, 삭제 및 서식 지정";
+
+/* Alert body directing user to login items settings */
+"You can manage login items in System Settings → General → Login Items." = "시스템 설정 → 일반 → 로그인 항목에서 로그인 항목을 관리할 수 있습니다.";
+
+/* Category hint */
+"Zoom and full screen" = "확대/축소 및 전체 화면";
+
+/* No comment provided by engineer. */
+"Zoom In" = "확대";
+
+/* No comment provided by engineer. */
+"Zoom Out" = "축소";
+
+/* No comment provided by engineer. */
+"↖/↘ → Line Start/End" = "↖/↘ → 줄 처음/끝";
+
+/* OSD text when Caps Lock is disabled */
+"⇪ Caps Lock Off" = "⇪ Caps Lock 꺼짐";
+
+/* OSD text when Caps Lock is enabled */
+"⇪ Caps Lock On" = "⇪ Caps Lock 켜짐";
+
+/* Picker description */
+"⌃Scroll zooms in and out in browser apps" = "⌃스크롤로 브라우저 앱에서 확대/축소";
+
+/* No comment provided by engineer. */
+"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X로 파일을 복사하여 이동 준비, ⌃V로 현재 폴더에 이동";
+
+/* Toggle label */
+"⌥ → Mission Control" = "⌥ → Mission Control";
+
+/* No comment provided by engineer. */
+"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+화살표 키로 윈도우 타일, 최대화 또는 복원";
+
+/* Toggle label */
+"⌥+N → Dock App" = "⌥+N → Dock 앱";
+
+/* No comment provided by engineer. */
+"⌥A → Apps" = "⌥A → 앱";
+
+/* Toggle label */
+"⌥⌥ → Apps" = "⌥⌥ → 앱";
+
+/* No comment provided by engineer. */
+"▸" = "▸";
