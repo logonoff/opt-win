@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class WindowTilingHandler {
     private static let tilingModifier = 28 // fn+Ctrl modifier value in AX menu items
 

@@ -6,6 +6,7 @@ enum ScrollZoomMode: Int {
     case traditional = 2  // scroll down = zoom in (traditional mouse)
 }
 
+@MainActor
 class ScrollZoomHandler {
     private static let keyPlus: Int64 = 0x18
     private static let keyMinus: Int64 = 0x1B

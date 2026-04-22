@@ -33,7 +33,7 @@ class LockKeyOSD {
                              userInfo: [.announcement: text])
 
         let work = DispatchWorkItem { [weak self] in
-            self?.dismiss()
+            MainActor.assumeIsolated { self?.dismiss() }
         }
         dismissWorkItem = work
         DispatchQueue.main.asyncAfter(deadline: .now() + displayDuration, execute: work)

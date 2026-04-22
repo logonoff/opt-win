@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class ZoomButtonHandler {
     private var savedFrames: [String: CGRect] = [:]
     private static let maxSavedFrames = 50

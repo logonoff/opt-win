@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class HotCorner {
     var onTrigger: ((NSScreen) -> Void)?
     var enabled: Bool = true

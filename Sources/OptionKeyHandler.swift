@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class OptionKeyHandler {
     var onSinglePress: (() -> Void)?
     var onDoublePress: (() -> Void)?
@@ -51,7 +52,7 @@ class OptionKeyHandler {
         } else {
             lastCleanOptionUpTime = now
             let work = DispatchWorkItem { [weak self] in
-                self?.onSinglePress?()
+                MainActor.assumeIsolated { self?.onSinglePress?() }
             }
             singlePressWorkItem = work
             DispatchQueue.main.asyncAfter(deadline: .now() + doublePressThreshold, execute: work)

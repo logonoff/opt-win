@@ -46,8 +46,10 @@ class RippleAnimation {
         DispatchQueue.main.asyncAfter(
             deadline: .now() + maxDuration + 0.1
         ) { [weak self] in
-            window.orderOut(nil)
-            self?.activeWindows.removeAll { $0 === window }
+            MainActor.assumeIsolated {
+                window.orderOut(nil)
+                self?.activeWindows.removeAll { $0 === window }
+            }
         }
     }
 

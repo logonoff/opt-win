@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class FinderCutHandler {
     private var cutPending = false
 

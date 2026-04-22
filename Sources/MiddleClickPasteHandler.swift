@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class MiddleClickPasteHandler {
     /// Returns true if the event was consumed.
     func handleMouseDown(event: CGEvent) -> Bool {

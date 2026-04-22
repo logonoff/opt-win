@@ -93,8 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - App Lifecycle
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        NSApplication.shared.abortModal()
-        return .terminateNow
+        NSApplication.shared.abortModal(); return .terminateNow
     }
 
     @objc func handleQuitAppleEvent(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
@@ -230,7 +229,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         try? task.run()
     }
     fileprivate func triggerSpotlight() {
-        NSWorkspace.shared.open(URL(string: "spotlight://apps")!)
+        guard let url = URL(string: "spotlight://apps") else { return }
+        NSWorkspace.shared.open(url)
     }
 }
 
@@ -281,7 +281,7 @@ extension AppDelegate {
         let font = NSFont.systemFont(ofSize: 11)
         let credits = NSMutableAttributedString()
         let githubText = NSLocalizedString("GitHub", comment: "About panel link text")
-        let githubURL = URL(string: "https://github.com/logonoff/superopt")!
+        guard let githubURL = URL(string: "https://github.com/logonoff/superopt") else { return }
         credits.append(NSAttributedString(string: githubText, attributes: [
             .font: font, .link: githubURL, .paragraphStyle: style
         ]))

@@ -22,6 +22,7 @@ grep -q 'beginning-of-line' ~/.zshrc 2>/dev/null || \
   >> ~/.zshrc && source ~/.zshrc
 */
 
+@MainActor
 class HomeEndHandler {
     private static let keyHome: Int64 = 0x73
     private static let keyEnd: Int64 = 0x77

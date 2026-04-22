@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class DockLauncher {
     /// Returns the Nth app in the dock (1-indexed). Position 1 is always Finder.
     func appURL(at position: Int) -> URL? {

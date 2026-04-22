@@ -1,6 +1,6 @@
 import SwiftUI
 
-@Observable
+@MainActor @Observable
 class GnomeShortcutSettings {
     var disabledShortcuts: Set<String>
 

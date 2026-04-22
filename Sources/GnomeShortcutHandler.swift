@@ -13,6 +13,7 @@ struct GnomeShortcutDef: Identifiable, Hashable {
 // different event types (ScrollZoomHandler), AX manipulation (ZoomButtonHandler), or
 // non-keyboard input (MiddleClickPasteHandler) belong in their own handler class with a
 // switch toggle in Settings.
+@MainActor
 class GnomeShortcutHandler {
     // MARK: - Terminal detection
 
