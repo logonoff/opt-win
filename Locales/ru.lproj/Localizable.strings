@@ -22,6 +22,9 @@
 /* No comment provided by engineer. */
 "Address Bar" = "Адресная строка";
 
+/* Toggle description */
+"Adds close buttons to windows in Mission Control" = "Добавляет кнопки «Закрыть» к окнам в Mission Control";
+
 /* No comment provided by engineer. */
 "Bold" = "Жирный";
 
@@ -48,6 +51,9 @@
 
 /* No comment provided by engineer. */
 "Close Window" = "Закрыть окно";
+
+/* Toggle label */
+"Close Windows in Mission Control" = "Закрытие окон в Mission Control";
 
 /* Shortcut category */
 "Code Editor" = "Редактор кода";

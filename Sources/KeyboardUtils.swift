@@ -11,7 +11,7 @@ enum KeyboardUtils {
         "dev.warp.Warp-Stable"
     ]
 
-    private static let syntheticTag: Int64 = 0x4F5054 // "OPT"
+    static let syntheticTag: Int64 = 0x4F5054 // "OPT"
 
     static func isSynthetic(_ event: CGEvent) -> Bool {
         event.getIntegerValueField(.eventSourceUserData) == syntheticTag
@@ -107,6 +107,16 @@ enum KeyboardUtils {
 
     static func primaryScreenHeight() -> CGFloat {
         NSScreen.screens.first?.frame.height ?? 0
+    }
+
+    static func isMissionControlActive(_ windowList: [[String: Any]]) -> Bool {
+        let dockOverlays = windowList.filter { info in
+            guard let owner = info[kCGWindowOwnerName as String] as? String,
+                  let layer = info[kCGWindowLayer as String] as? Int
+            else { return false }
+            return owner == "Dock" && layer > 0
+        }.count
+        return dockOverlays > 1
     }
 
     static func isFocusedOnTextField() -> Bool {

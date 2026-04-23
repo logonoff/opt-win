@@ -22,6 +22,9 @@
 /* No comment provided by engineer. */
 "Address Bar" = "Barre d'adresse";
 
+/* Toggle description */
+"Adds close buttons to windows in Mission Control" = "Ajoute des boutons Fermer aux fenêtres dans Mission Control";
+
 /* No comment provided by engineer. */
 "Bold" = "Gras";
 
@@ -48,6 +51,9 @@
 
 /* No comment provided by engineer. */
 "Close Window" = "Fermer la fenêtre";
+
+/* Toggle label */
+"Close Windows in Mission Control" = "Fermer les fenêtres dans Mission Control";
 
 /* Shortcut category */
 "Code Editor" = "Éditeur de code";

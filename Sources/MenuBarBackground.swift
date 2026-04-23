@@ -90,15 +90,7 @@ class MenuBarBackground: NSObject {
             kCGNullWindowID
         ) as? [[String: Any]] ?? []
 
-        // Hide when Mission Control is active — Dock creates multiple overlay windows.
-        // The Dock bar itself is always one window at layer > 0, so require at least 2.
-        let dockOverlayCount = windowList.filter { info in
-            guard let owner = info[kCGWindowOwnerName as String] as? String,
-                  let layer = info[kCGWindowLayer as String] as? Int else { return false }
-            return owner == "Dock" && layer > 0
-        }.count
-        let missionControlActive = dockOverlayCount > 1
-        if missionControlActive {
+        if KeyboardUtils.isMissionControlActive(windowList) {
             for win in windows { win.alphaValue = 0 }
             return
         }

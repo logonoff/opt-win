@@ -22,6 +22,9 @@
 /* No comment provided by engineer. */
 "Address Bar" = "アドレスバー";
 
+/* Toggle description */
+"Adds close buttons to windows in Mission Control" = "Mission Controlのウインドウに「閉じる」ボタンを追加します";
+
 /* No comment provided by engineer. */
 "Bold" = "太字";
 
@@ -48,6 +51,9 @@
 
 /* No comment provided by engineer. */
 "Close Window" = "ウインドウを閉じる";
+
+/* Toggle label */
+"Close Windows in Mission Control" = "Mission Controlでウインドウを閉じる";
 
 /* Shortcut category */
 "Code Editor" = "コードエディタ";

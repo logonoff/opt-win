@@ -51,6 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let scrollZoomHandler = ScrollZoomHandler()
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
+    private let mcCloseHandler = MissionControlCloseHandler()
     private let settingsWindow = SettingsWindowController()
     private let permissionHelper = PermissionHelper()
     private var lastCapsLockState = false
@@ -72,6 +73,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "middleClickPasteEnabled": false,
         "zoomButtonEnabled": false,
         "menuKeyRightClickEnabled": false,
+        "mcCloseEnabled": true,
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "dockFinderPosition": 1
     ]
@@ -87,18 +89,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if wantsBg { menuBarBackground.start() } else { menuBarBackground.stop() }
         gnomeShortcutHandler.reloadSettings()
         scrollZoomHandler.reloadSettings()
+        if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() } else {
+            mcCloseHandler?.stop()
+        }
     }
 
-    private var dockFinderPosition: Int {
-        UserDefaults.standard.integer(forKey: "dockFinderPosition")
-    }
+    private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
 
     // MARK: - App Lifecycle
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         NSApplication.shared.abortModal(); return .terminateNow
     }
 
-    @objc func handleQuitAppleEvent(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
+    @objc func handleQuitAppleEvent(_: NSAppleEventDescriptor, withReply _: NSAppleEventDescriptor) {
         NSApplication.shared.terminate(nil)
     }
 
@@ -120,6 +123,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if isEnabled("menuBarBgEnabled") && !systemMenuBarBg { menuBarBackground.start() }
 
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
+
+        if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() }
 
         optionKeyHandler.onSinglePress = { [weak self] in
             guard let self = self, self.isEnabled("optSingleEnabled") else { return }
@@ -162,9 +167,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-        safetyTimer?.invalidate()
-        tearDownEventTap()
+    func applicationWillTerminate(_: Notification) {
+        safetyTimer?.invalidate(); tearDownEventTap(); mcCloseHandler?.stop()
         DistributedNotificationCenter.default().removeObserver(self)
     }
     // MARK: - Event Tap
@@ -227,7 +231,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let task = Process()
         task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
         task.arguments = ["-a", "Mission Control"]
-        task.terminationHandler = { _ in } // prevent Process from leaking
+        task.terminationHandler = { _ in }
         try? task.run()
     }
     fileprivate func triggerSpotlight() {
@@ -329,7 +333,11 @@ extension AppDelegate {
         case .keyDown: if handleKeyDown(event: event) { return true }
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             if handleMouseDown(type: type, event: event) { return true }
-        case .mouseMoved: hotCorner.handleMouseMoved(event: event)
+        case .mouseMoved:
+            hotCorner.handleMouseMoved(event: event)
+            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleMouseMoved(event: event) == true {
+                return true
+            }
         case .scrollWheel:
             if KeyboardUtils.isBrowserApp()
                 && scrollZoomHandler.handleScroll(event: event) { return true }
@@ -339,13 +347,12 @@ extension AppDelegate {
     }
 
     private func handleMouseDown(type: CGEventType, event: CGEvent) -> Bool {
-        if type == .leftMouseDown && isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
-            return true
+        if type == .leftMouseDown {
+            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true { return true }
+            if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) { return true }
         }
         if type == .otherMouseDown && isEnabled("middleClickPasteEnabled")
-            && middleClickPasteHandler.handleMouseDown(event: event) {
-            return true
-        }
+            && middleClickPasteHandler.handleMouseDown(event: event) { return true }
         optionKeyHandler.markOtherInput()
         return false
     }

@@ -22,6 +22,9 @@
 /* No comment provided by engineer. */
 "Address Bar" = "地址栏";
 
+/* Toggle description */
+"Adds close buttons to windows in Mission Control" = "在调度中心的窗口上添加关闭按钮";
+
 /* No comment provided by engineer. */
 "Bold" = "粗体";
 
@@ -48,6 +51,9 @@
 
 /* No comment provided by engineer. */
 "Close Window" = "关闭窗口";
+
+/* Toggle label */
+"Close Windows in Mission Control" = "在调度中心关闭窗口";
 
 /* Shortcut category */
 "Code Editor" = "代码编辑器";

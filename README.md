@@ -52,6 +52,7 @@ xattr -d com.apple.quarantine /Applications/SuperOpt.app
 | Hot Corner | Move mouse to top-left corner → Mission Control (with GNOME ripple animation) |
 | Window Tiling | `⌥`+Arrow keys to tile, maximize, or restore windows (off by default) |
 | Green Button Fills | Green button fills window instead of full screen (off by default) |
+| Close in Mission Control | Hover over a window in Mission Control to show a close button |
 | Dark Menu Bar | Opaque bar behind transparent menu bar when a window fills the screen (off by default) |
 
 ### Keyboard

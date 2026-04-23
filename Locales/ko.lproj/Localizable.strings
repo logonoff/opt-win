@@ -22,6 +22,9 @@
 /* No comment provided by engineer. */
 "Address Bar" = "주소 막대";
 
+/* Toggle description */
+"Adds close buttons to windows in Mission Control" = "Mission Control의 윈도우에 닫기 버튼을 추가합니다";
+
 /* No comment provided by engineer. */
 "Bold" = "볼드체";
 
@@ -48,6 +51,9 @@
 
 /* No comment provided by engineer. */
 "Close Window" = "윈도우 닫기";
+
+/* Toggle label */
+"Close Windows in Mission Control" = "Mission Control에서 윈도우 닫기";
 
 /* Shortcut category */
 "Code Editor" = "코드 편집기";

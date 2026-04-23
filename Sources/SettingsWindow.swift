@@ -42,7 +42,9 @@ private let _extraStrings = [
     NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
     NSLocalizedString("⌃Scroll zooms in and out in browser apps", comment: "Picker description"),
     NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
-    NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description")
+    NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
+    NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
+    NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description")
 ]
 
 struct SettingsView: View {
@@ -61,6 +63,7 @@ struct SettingsView: View {
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
+    @AppStorage("mcCloseEnabled") var mcClose = true
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
 
@@ -88,6 +91,11 @@ struct SettingsView: View {
                 Toggle(isOn: $zoomButton) {
                     Text("Green Button Fills Window")
                     Text("Clicking the green button fills the window instead of entering full screen")
+                }
+
+                Toggle(isOn: $mcClose) {
+                    Text("Close Windows in Mission Control")
+                    Text("Adds close buttons to windows in Mission Control")
                 }
 
                 Toggle(isOn: $windowTiling) {
