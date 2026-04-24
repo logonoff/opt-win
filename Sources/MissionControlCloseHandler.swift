@@ -321,8 +321,27 @@ extension MissionControlCloseHandler {
     }
 
     private func nudgeMouseOff(_ rect: CGRect, from point: CGPoint) {
+        let primaryHeight = KeyboardUtils.primaryScreenHeight()
+        let nsPoint = NSPoint(x: point.x, y: primaryHeight - point.y)
+        let screenFrame = NSScreen.screens.first(where: {
+            $0.frame.contains(nsPoint)
+        })?.frame ?? NSScreen.main?.frame ?? .zero
+        let screenCG = CGRect(
+            x: screenFrame.origin.x, y: primaryHeight - screenFrame.maxY,
+            width: screenFrame.width, height: screenFrame.height)
+
+        let offset: CGFloat = 20
         var nudged = point
-        nudged.x = point.x < rect.midX ? rect.minX - 20 : rect.maxX + 20
+        let rightNudge = (point.x < rect.midX ? rect.maxX : rect.maxX) + offset
+        let leftNudge = (point.x < rect.midX ? rect.minX : rect.minX) - offset
+        if rightNudge <= screenCG.maxX {
+            nudged.x = rect.maxX + offset
+        } else if leftNudge >= screenCG.minX {
+            nudged.x = rect.minX - offset
+        } else {
+            nudged.y = rect.maxY + offset <= screenCG.maxY
+                ? rect.maxY + offset : rect.minY - offset
+        }
         warpAndPost(nudged)
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             MainActor.assumeIsolated { self.warpAndPost(point) }
